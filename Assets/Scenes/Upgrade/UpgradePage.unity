@@ -205,7 +205,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 217846825}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2013372933}
+        m_TargetAssemblyTypeName: Upgrade, Assembly-CSharp
+        m_MethodName: UpgradeSpeed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &217846825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,7 +426,7 @@ GameObject:
   - component: {fileID: 526792497}
   - component: {fileID: 526792496}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: txtCostHealth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -679,8 +691,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 87.4, y: -0.00012996}
-  m_SizeDelta: {x: 121.9933, y: 51.785}
+  m_AnchoredPosition: {x: 111.19555, y: -0.00012996}
+  m_SizeDelta: {x: 108.3844, y: 51.785}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &704569788
 MonoBehaviour:
@@ -709,7 +721,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -941,7 +953,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 849608919}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2013372933}
+        m_TargetAssemblyTypeName: Upgrade, Assembly-CSharp
+        m_MethodName: UpgradeHealth
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &849608919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2041,7 +2065,7 @@ GameObject:
   - component: {fileID: 1858744722}
   - component: {fileID: 1858744721}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: txtCostDamage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2122,7 +2146,7 @@ GameObject:
   - component: {fileID: 1942753556}
   - component: {fileID: 1942753555}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: txtCostSpeed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2387,9 +2411,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ea1e0b48aa13f4288678d431c63e30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UpgradeDamage: {fileID: 1277266088}
-  Username: {fileID: 644335256}
-  Coins: {fileID: 704569788}
+  btnUpgradeDamage: {fileID: 1277266088}
+  btnUpgradeHealth: {fileID: 849608918}
+  btnUpgradeSpeed: {fileID: 217846824}
+  txtUsername: {fileID: 644335256}
+  txtCoins: {fileID: 704569788}
+  txtCostDamage: {fileID: 1858744721}
+  txtCostHealth: {fileID: 526792496}
+  txtCostSpeed: {fileID: 1942753555}
 --- !u!1 &2075669286
 GameObject:
   m_ObjectHideFlags: 0

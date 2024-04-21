@@ -6,42 +6,31 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Upgrade : MonoBehaviour
-{
+{   
+    //declareren
     int currentcoins = 0;
-    public Button UpgradeDamage;
+    int Damagecost = 1;
+    int Healthcost = 2;
+    int Speedcost = 3;
+    int newcoins = 0;
+    public Button btnUpgradeDamage;
+    public Button btnUpgradeHealth;
+    public Button btnUpgradeSpeed;
+    public Text txtUsername;
+    public Text txtCoins;
+    public Text txtCostDamage;
+    public Text txtCostHealth;
+    public Text txtCostSpeed;
     string StrUsername = DBmanager.username;
     int Health = DBmanager.health;
     int Damage = DBmanager.damage;
     int Speed = DBmanager.speed;
-    int newcoins = 0;
-    public Text Username;
-    public Text Coins;
-
+    
+    
     public void GotoMain()
     {
         SceneManager.LoadScene(2); //Gaan naar mainmenu Scene (2) (buildsettings in unity) file --> buildsettings)
     }
-    public void UpgradeSword()
-    {
-        // Decrease coins by "Price"
-        currentcoins = DBmanager.coins;
-        newcoins = currentcoins - 1;
-
-        // Check if the player has enough coins for the upgrade
-        if (newcoins >= 0)
-        {
-            // Update the UI with the new number of coins
-            Coins.text = "Coins\n" + newcoins;
-
-            // Send the updated coins and other player data to the database
-            StartCoroutine(SaveCurretcoins(newcoins, Damage, Health, Speed));
-        }
-        else
-        {
-            Debug.Log("Not enough coins for the upgrade.");
-        }
-    }
-    
     private void Awake()
     {   //als de scene geladen word dan word er gekeken of je bent ingelogd of niet als je bent ingelogd dan gaat de code als het moet anders wordt je naar de loginpagina gestuurt
         if (StrUsername == null)
@@ -49,14 +38,84 @@ public class Upgrade : MonoBehaviour
             SceneManager.LoadScene(0);
         }
         else
-        {   //tekst bovenaan inladen
+        {   //tekst overal inladen
+            //bovenaan
             currentcoins = DBmanager.coins;
             StrUsername = StrUsername.ToUpper();
-            Username.text = "Username\n" + StrUsername;
-            Coins.text = "Coins\n" + currentcoins;
+            txtUsername.text = "Username\n" + StrUsername;
+            txtCoins.text = "Coins\n" + currentcoins;
+            //upgrades
+            txtCostDamage.text = "Upgrade\nCost: " + Damagecost;
+            txtCostHealth.text = "Upgrade\nCost: " + Healthcost;
+            txtCostSpeed.text = "Upgrade\nCost: " + Speedcost;
+
         }
     }
-    IEnumerator SaveCurretcoins(int currentcoins, int damage, int health, int speed)
+    public void UpgradeSword()
+    {
+        
+        // Decrease coins by "Price"
+        currentcoins = DBmanager.coins;
+        newcoins = currentcoins - Damagecost;
+
+        // Check if the player has enough coins for the upgrade
+        if (newcoins >= 0)
+        {
+            // Update the UI with the new number of coins
+            txtCoins.text = "Coins\n" + newcoins;
+
+            // Send the updated coins and other player data to the database
+            StartCoroutine(SaveCurrentcoins(newcoins, Damage, Health, Speed));
+        }
+        else
+        {
+            Debug.Log("Not enough coins for the upgrade.");
+        }
+    }
+    public void UpgradeHealth()
+    {
+        
+        // Decrease coins by "Price"
+        currentcoins = DBmanager.coins;
+        newcoins = currentcoins - Healthcost;
+
+        // Check if the player has enough coins for the upgrade
+        if (newcoins <= 0)
+        {
+            // Update the UI with the new number of coins
+            txtCoins.text = "Coins\n" + newcoins;
+
+            // Send the updated coins and other player data to the database
+            StartCoroutine(SaveCurrentcoins(newcoins, Damage, Health, Speed));
+        }
+        else
+        {
+            Debug.Log("Not enough coins for the upgrade.");
+        }
+    }
+    public void UpgradeSpeed()
+    {
+        
+        // Decrease coins by "Price"
+        currentcoins = DBmanager.coins;
+        newcoins = currentcoins - Speedcost;
+
+        // Check if the player has enough coins for the upgrade
+        if (newcoins <= 0)
+        {
+            // Update the UI with the new number of coins
+            txtCoins.text = "Coins\n" + newcoins;
+
+            // Send the updated coins and other player data to the database
+            StartCoroutine(SaveCurrentcoins(newcoins, Damage, Health, Speed));
+        }
+        else
+        {
+            Debug.Log("Not enough coins for the upgrade.");
+        }
+    }
+
+    IEnumerator SaveCurrentcoins(int currentcoins, int damage, int health, int speed)
     {
         // form maken zodat je data kan sturen naar het script
         WWWForm form = new WWWForm();
@@ -81,15 +140,15 @@ public class Upgrade : MonoBehaviour
                     DBmanager.coins = currentcoins;
 
                     //tekst bovenaan veranderen door de nieuwe waarde
-                    Coins.text = "Coins\n" + currentcoins;
+                    txtCoins.text = "Coins\n" + currentcoins;
                 }
                 else
-                {
+                {   //foutencontrole console
                     Debug.Log(www.downloadHandler.text);
                 }
             }
             else
-            {
+            {   //foutencontrole console
                 Debug.Log("Kan upgrades.php niet vinden" + www.downloadHandler.text);
             }
         }
