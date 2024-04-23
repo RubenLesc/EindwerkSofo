@@ -21,6 +21,7 @@ public class Upgrade : MonoBehaviour
     public Text txtCostDamage;
     public Text txtCostHealth;
     public Text txtCostSpeed;
+    public Text txtLevelDamage;
     string StrUsername = DBmanager.username;
     int Health = DBmanager.health;
     int Damage = DBmanager.damage;
@@ -56,6 +57,8 @@ public class Upgrade : MonoBehaviour
         
         // Decrease coins by "Price"
         currentcoins = DBmanager.coins;
+        Damagecost = DBmanager.damage * 20;
+        DBmanager.damage += 1;
         newcoins = currentcoins - Damagecost;
 
         // Check if the player has enough coins for the upgrade
@@ -63,6 +66,8 @@ public class Upgrade : MonoBehaviour
         {
             // Update the UI with the new number of coins
             txtCoins.text = "Coins\n" + newcoins;
+            txtLevelDamage.text = "Level: " + DBmanager.damage + "\nNext Upgrade: " + Damagecost;
+            txtCostDamage.text = "";
 
             // Send the updated coins and other player data to the database
             StartCoroutine(SaveCurrentcoins(newcoins, Damage, Health, Speed));
@@ -80,7 +85,7 @@ public class Upgrade : MonoBehaviour
         newcoins = currentcoins - Healthcost;
 
         // Check if the player has enough coins for the upgrade
-        if (newcoins <= 0)
+        if (newcoins >= 0)
         {
             // Update the UI with the new number of coins
             txtCoins.text = "Coins\n" + newcoins;
@@ -101,7 +106,7 @@ public class Upgrade : MonoBehaviour
         newcoins = currentcoins - Speedcost;
 
         // Check if the player has enough coins for the upgrade
-        if (newcoins <= 0)
+        if (newcoins >= 0)
         {
             // Update the UI with the new number of coins
             txtCoins.text = "Coins\n" + newcoins;

@@ -34,12 +34,13 @@ public class Login : MonoBehaviour
                     DBmanager.username = Usernamefield.text;
                     string[] php = www.downloadHandler.text.Split('\t');
                     string statusCode = php[0];
+                    //gegevens uit php/database halen wanneer er ingelogd wordt
                     DBmanager.admin = int.Parse(php[1]);
                     DBmanager.coins = int.Parse(php[2]);
                     DBmanager.damage = int.Parse(php[3]);
                     DBmanager.speed = int.Parse(php[4]);
                     DBmanager.health = int.Parse(php[5]);
-
+                    
                     SceneManager.LoadScene(2);//Gaan naar mainmenu Scene (2) (buildsettings in unity) file --> buildsettings)
 
                 }

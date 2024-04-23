@@ -1660,7 +1660,7 @@ GameObject:
   - component: {fileID: 1439278139}
   - component: {fileID: 1439278138}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: LevelDamage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2419,6 +2419,7 @@ MonoBehaviour:
   txtCostDamage: {fileID: 1858744721}
   txtCostHealth: {fileID: 526792496}
   txtCostSpeed: {fileID: 1942753555}
+  txtLevelDamage: {fileID: 1439278138}
 --- !u!1 &2075669286
 GameObject:
   m_ObjectHideFlags: 0
