@@ -60,6 +60,7 @@ public class Upgrade : MonoBehaviour
         Damagecost = DBmanager.damage * 20;
         DBmanager.damage += 1;
         newcoins = currentcoins - Damagecost;
+        
 
         // Check if the player has enough coins for the upgrade
         if (newcoins >= 0)
@@ -69,8 +70,14 @@ public class Upgrade : MonoBehaviour
             txtLevelDamage.text = "Level: " + DBmanager.damage + "\nNext Upgrade: " + Damagecost;
             txtCostDamage.text = "";
 
+            //Het level van je wapen verhogen met 1
+            DBmanager.damage = Damage + 1;
+
             // Send the updated coins and other player data to the database
             StartCoroutine(SaveCurrentcoins(newcoins, Damage, Health, Speed));
+
+            
+
         }
         else
         {
