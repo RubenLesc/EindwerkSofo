@@ -57,6 +57,7 @@ public class Upgrade : MonoBehaviour
         // Decrease coins by "Price"
         currentcoins = DBmanager.coins;
         newcoins = currentcoins - Damagecost;
+        
 
         // Check if the player has enough coins for the upgrade
         if (newcoins >= 0)
@@ -64,8 +65,14 @@ public class Upgrade : MonoBehaviour
             // Update the UI with the new number of coins
             txtCoins.text = "Coins\n" + newcoins;
 
+            //Het level van je wapen verhogen met 1
+            DBmanager.damage = Damage + 1;
+
             // Send the updated coins and other player data to the database
             StartCoroutine(SaveCurrentcoins(newcoins, Damage, Health, Speed));
+
+            
+
         }
         else
         {
@@ -80,7 +87,7 @@ public class Upgrade : MonoBehaviour
         newcoins = currentcoins - Healthcost;
 
         // Check if the player has enough coins for the upgrade
-        if (newcoins <= 0)
+        if (newcoins >= 0)
         {
             // Update the UI with the new number of coins
             txtCoins.text = "Coins\n" + newcoins;
@@ -101,7 +108,7 @@ public class Upgrade : MonoBehaviour
         newcoins = currentcoins - Speedcost;
 
         // Check if the player has enough coins for the upgrade
-        if (newcoins <= 0)
+        if (newcoins >= 0)
         {
             // Update the UI with the new number of coins
             txtCoins.text = "Coins\n" + newcoins;
