@@ -14,4 +14,6 @@ public class Collection : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    
+
 }

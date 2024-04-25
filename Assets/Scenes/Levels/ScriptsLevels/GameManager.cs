@@ -15,14 +15,14 @@ public class GameManager : MonoBehaviour
     public void Awake()
     {
         //als de scene geladen word dan word er gekeken of je bent ingelogd of niet als je bent ingelogd dan gaat de code als het moet anders wordt je naar de loginpagina gestuurt
-        if (DBmanager.username == null)
-        {
-            SceneManager.LoadScene(0);
-        }
-        else
-        {
-            CoinsCollected = DBmanager.coins;
-        }
+        //if (DBmanager.username == null)
+        //{
+        //    SceneManager.LoadScene(0);
+        //}
+        //else
+        //{
+        //    CoinsCollected = DBmanager.coins;
+        //}
     }
 
     private void Update()
