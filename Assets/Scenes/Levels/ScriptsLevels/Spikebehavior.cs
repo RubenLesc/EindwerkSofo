@@ -1,12 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Spikebehavior : MonoBehaviour
 {
     public GameManager GameManager;
     private Animator animator;
     public GameObject player;
+    private AnimationEvent die;
 
     void Start()
     {
@@ -28,10 +31,23 @@ public class Spikebehavior : MonoBehaviour
         if (animator != null)
         {
             animator.SetTrigger("death");
+            
+            StartCoroutine(WaitForSeconds());
+
+            
         }
-        else
+
+        IEnumerator WaitForSeconds()
         {
-            Debug.LogWarning("Animator component is not assigned to the player GameObject.");
+            
+            //wachten voor 2 seconden
+            yield return new WaitForSeconds(0.7f) ;
+            //level opnieuw starten
+            SceneManager.LoadScene(6);
         }
+
+
     }
+        
 }
+

@@ -507,7 +507,7 @@ GameObject:
   - component: {fileID: 561386459}
   - component: {fileID: 561386458}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: txtLevelSpeed
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -884,7 +884,7 @@ GameObject:
   - component: {fileID: 849608919}
   - component: {fileID: 849608918}
   m_Layer: 5
-  m_Name: Heart
+  m_Name: GreenCross
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1161,7 +1161,7 @@ GameObject:
   - component: {fileID: 1199730034}
   - component: {fileID: 1199730033}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: txtLevelHealth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2411,6 +2411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ea1e0b48aa13f4288678d431c63e30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CostPerUpgrade: 20
   btnUpgradeDamage: {fileID: 1277266088}
   btnUpgradeHealth: {fileID: 849608918}
   btnUpgradeSpeed: {fileID: 217846824}
@@ -2420,6 +2421,8 @@ MonoBehaviour:
   txtCostHealth: {fileID: 526792496}
   txtCostSpeed: {fileID: 1942753555}
   txtLevelDamage: {fileID: 1439278138}
+  txtLevelHealth: {fileID: 1199730033}
+  txtLevelSpeed: {fileID: 561386458}
 --- !u!1 &2075669286
 GameObject:
   m_ObjectHideFlags: 0
