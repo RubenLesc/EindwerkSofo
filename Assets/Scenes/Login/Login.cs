@@ -54,7 +54,6 @@ public class Login : MonoBehaviour
                 Debug.Log("Kan login.php niet vinden." + www.downloadHandler.text);
             }
 
-
         }
     }
     public void Verifyinput()
