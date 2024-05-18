@@ -72,6 +72,7 @@ public class RegisterPage : MonoBehaviour
     }
 
 
+
     public void Verifyinput()
     {
         txtRegister.interactable = (Usernamefield.text.Length >= 3 && Passwordfield.text.Length >= 5);

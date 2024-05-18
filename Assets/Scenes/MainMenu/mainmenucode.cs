@@ -8,6 +8,8 @@ public class MainmenuCode : MonoBehaviour
 {
     public Text Username;
     public Text Coins;
+        public Text Username2;
+    public Text Coins2;
     public void Awake()
     {
         //als scene account word geopent dan word in de label username de gebruikersnaam getoont in grote letters
@@ -21,8 +23,13 @@ public class MainmenuCode : MonoBehaviour
         else
         {
             StrUsername = StrUsername.ToUpper();
-            Username.text = "Welcome " + StrUsername;
+            //schaduw
+            Username.text = "Welcome: " + StrUsername;
+            Username2.text = "Welcome: " + StrUsername;
         }
-        Coins.text = "Usercoins: " + strcoins;
+        //schaduw
+        Coins.text =  strcoins.ToString();
+        Coins2.text = strcoins.ToString();
+
     }
 }

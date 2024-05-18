@@ -21,7 +21,9 @@ public class Upgrade : MonoBehaviour
     public Button btnUpgradeHealth;
     public Button btnUpgradeSpeed;
     public Text txtUsername;
+    public Text txtUsername2;
     public Text txtCoins;
+    public Text txtCoins2;
     public Text txtCostDamage;
     public Text txtCostHealth;
     public Text txtCostSpeed;
@@ -50,25 +52,32 @@ public class Upgrade : MonoBehaviour
             currentcoins = DBmanager.coins;
             StrUsername = StrUsername.ToUpper();
             txtUsername.text = "Username\n" + StrUsername;
-            txtCoins.text = "Coins\n" + currentcoins;
+            txtUsername2.text = "Username\n" + StrUsername;
+            txtCoins.text = currentcoins.ToString();
+            txtCoins2.text = currentcoins.ToString();
+
 
             //tekst upgrade updaten
-            txtCoins.text = "Coins\n" + currentcoins;
+            txtCoins.text = currentcoins.ToString();
+            txtCoins2.text = currentcoins.ToString();
             txtLevelDamage.text = "Level: " + DBmanager.damage + "\nNext Upgrade: " + Damagecost;
             Damagecost = DBmanager.damage * CostPerUpgrade + CostPerUpgrade;
             txtCostDamage.text = "Upgrade\nCost: " + Damagecost;
             //tekst health updaten
-            txtCoins.text = "Coins\n" + currentcoins;
+            txtCoins.text = currentcoins.ToString();
+            txtCoins2.text = currentcoins.ToString();
             txtLevelHealth.text = "Level: " + DBmanager.health + "\nNext Upgrade: " + Healthcost;
             Healthcost = DBmanager.health * CostPerUpgrade + CostPerUpgrade;
             txtCostHealth.text = "Upgrade\nCost: " + Healthcost;
             //tekst Speed updaten
-            txtCoins.text = "Coins\n" + currentcoins;
+            txtCoins.text = currentcoins.ToString();
+            txtCoins2.text = currentcoins.ToString();
             txtLevelSpeed.text = "Level: " + DBmanager.speed + "\nNext Upgrade: " + Speedcost;
             Speedcost = DBmanager.speed * CostPerUpgrade + CostPerUpgrade;
             txtCostSpeed.text = "Upgrade\nCost: " + Speedcost;
 
         }
+
     }
     public void UpgradeSword()
     {
@@ -190,15 +199,18 @@ public class Upgrade : MonoBehaviour
                     txtCoins.text = "Coins\n" + currentcoins;
 
                     //tekst upgrade updaten
-                    txtCoins.text = "Coins\n" + newcoins;
+                    txtCoins.text = newcoins.ToString();
+                    txtCoins2.text = newcoins.ToString();
                     txtLevelDamage.text = "Level: " + DBmanager.damage + "\nNext Upgrade: " + Damagecost;
                     txtCostDamage.text = "Upgrade\nCost: " + Damagecost;
                     //tekst health updaten
-                    txtCoins.text = "Coins\n" + newcoins;
+                    txtCoins.text = newcoins.ToString();
+                    txtCoins2.text = newcoins.ToString();
                     txtLevelHealth.text = "Level: " + DBmanager.health + "\nNext Upgrade: " + Healthcost;
                     txtCostHealth.text = "Upgrade\nCost: " + Healthcost;
                     //tekst Speed updaten
-                    txtCoins.text = "Coins\n" + newcoins;
+                    txtCoins.text = newcoins.ToString();
+                    txtCoins2.text = newcoins.ToString();
                     txtLevelSpeed.text = "Level: " + DBmanager.speed + "\nNext Upgrade: " + Speedcost;
                     txtCostSpeed.text = "Upgrade\nCost: " + Speedcost;
 

@@ -11,6 +11,7 @@ public class Login : MonoBehaviour
     public InputField Usernamefield;
     public InputField Passwordfield;
     public Button txtRegister;
+    public Text error;
 
     public void CallLogin()
     {
@@ -47,6 +48,7 @@ public class Login : MonoBehaviour
                 else
                 {
                     Debug.Log("Gebruiker login mislukt. ERROR #" + www.downloadHandler.text);
+                    error.text = "Incorrect password\n try again";
                 }
             }
             else

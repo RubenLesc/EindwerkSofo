@@ -8,7 +8,7 @@ using UnityEngine.Networking;
 
 public class Finish_Saving : MonoBehaviour
 {
-    // Reference to the GameManager script
+    //gamemanager
     public GameManager gameManager;
 
     public void OnTriggerEnter2D(Collider2D collision)

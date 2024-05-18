@@ -52,7 +52,8 @@ public class player_Movement : MonoBehaviour
     }
 
     private void UpdateAnimation()
-    {
+    {   
+        //animaties
         MovementState state;
         if (directionX > 0f )
         {
