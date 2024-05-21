@@ -40,8 +40,17 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: sky
+    uniqueID: 3440571055
+    locked: 0
   - name: background
     uniqueID: 335484677
+    locked: 0
+  - name: scernery
+    uniqueID: 3795355269
+    locked: 0
+  - name: scenery2
+    uniqueID: 4270302423
     locked: 0
   - name: Default
     uniqueID: 0

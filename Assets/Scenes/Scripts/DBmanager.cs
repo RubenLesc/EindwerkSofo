@@ -7,6 +7,7 @@ using UnityEngine;
 //static class zodat je DBmanager van overal in je project kan vinden
 public static class DBmanager
 {
+    public static int playerId;
     public static string username;
     public static int admin;
     public static string password;
@@ -15,6 +16,7 @@ public static class DBmanager
     public static int damage;
     public static int speed;
     public static int health;
+    public static float elapsedTime;
 
     public static bool LoggedIn { get { return username != null; } }
 
