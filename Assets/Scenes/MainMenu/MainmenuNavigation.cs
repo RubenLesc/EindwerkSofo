@@ -22,4 +22,20 @@ public class MainmenuNavigation : MonoBehaviour
     {
         SceneManager.LoadScene(6);//Gaan naar Level1  (6) (buildsettings in unity) file --> buildsettings)
     }
+    public void GoToLevel2()
+    {
+        SceneManager.LoadScene(7);//Gaan naar Level2  (7) (buildsettings in unity) file --> buildsettings)
+    }
+    public void GoToLevel3()
+    {
+        SceneManager.LoadScene(8);//Gaan naar Level3  (8) (buildsettings in unity) file --> buildsettings)
+    }
+    public void GoToLevel4()
+    {
+        SceneManager.LoadScene(9);//Gaan naar Level4  (9) (buildsettings in unity) file --> buildsettings)
+    }
+    public void GoToHelp()
+    {
+        SceneManager.LoadScene(10);//Gaan naar Controls Pagina  (10) (buildsettings in unity) file --> buildsettings)
+    }
 }

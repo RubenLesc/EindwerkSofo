@@ -77,6 +77,7 @@ public class Account : MonoBehaviour
             {
                 case "0":
                     error.text = "Password changed successfully.";
+                    ResetInputFields();
                     break;
                 case "1: Connection failed: ...":
                     error.text = "Connection failed.";
@@ -106,7 +107,15 @@ public class Account : MonoBehaviour
         }
     }
 
-public void Loggout()
+    private void ResetInputFields()
+    {
+        currentPasswordInput.text = "";
+        newPasswordInput.text = "";
+        confirmPasswordInput.text = "";
+    }
+
+
+    public void Loggout()
     {
         DBmanager.LogOut();
         SceneManager.LoadScene(0);

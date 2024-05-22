@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         // Update the score display
-        Score.text = "Coins: " + CoinsCollected;
+        Score.text = CoinsCollected.ToString();
 
         // Update the timer if it is running
         if (isTiming)

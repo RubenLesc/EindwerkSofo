@@ -28,52 +28,46 @@ public class Login : MonoBehaviour
 
             if (www.result == UnityWebRequest.Result.Success)
             {
-                string responseText = www.downloadHandler.text;
+                string responseText = www.downloadHandler.text.Trim();
                 Debug.Log("Response from server: " + responseText);
 
-                string[] php = responseText.Split(':');
-
-                if (php.Length > 1) // Check if response contains an error code
+                // Check if the response starts with an error code
+                if (responseText.StartsWith("0\t"))
                 {
-                    int errorCode;
-                    if (int.TryParse(php[0], out errorCode))
+                    // Split the response text by tab character
+                    string[] php = responseText.Split('\t');
+                    Debug.Log("Response split length: " + php.Length);
+
+                    if (php.Length == 7)
                     {
-                        switch (errorCode)
-                        {
-                            case 0:
-                                string[] userData = php[1].Split('\t');
-                                DBmanager.username = Usernamefield.text;
-                                DBmanager.playerId = int.Parse(userData[6]);
-                                DBmanager.admin = int.Parse(userData[1]);
-                                DBmanager.coins = int.Parse(userData[2]);
-                                DBmanager.damage = int.Parse(userData[3]);
-                                DBmanager.speed = int.Parse(userData[4]);
-                                DBmanager.health = int.Parse(userData[5]);
-                                SceneManager.LoadScene(2); // Go to the main menu scene
-                                break;
-                            case 3:
-                                Debug.Log("Username doesn't exist");
-                                error.text = "Username doesn't exist\n Please try again";
-                                break;
-                            case 6:
-                                Debug.Log("Incorrect password");
-                                error.text = "Incorrect password\n Try again";
-                                break;
-                            default:
-                                Debug.Log("Login failed. ERROR #" + errorCode);
-                                error.text = "Login failed\n Please try again later";
-                                break;
-                        }
+                        DBmanager.username = Usernamefield.text;
+                        DBmanager.admin = int.Parse(php[1]);
+                        DBmanager.coins = int.Parse(php[2]);
+                        DBmanager.damage = int.Parse(php[3]);
+                        DBmanager.speed = int.Parse(php[4]);
+                        DBmanager.health = int.Parse(php[5]);
+                        DBmanager.playerId = int.Parse(php[6]);
+                        SceneManager.LoadScene(2); // Go to the main menu scene
                     }
                     else
                     {
-                        Debug.LogError("Error parsing error code");
+                        Debug.LogError("Unexpected response format: " + responseText);
                         error.text = "Login failed\n Please try again later";
                     }
                 }
+                else if (responseText.StartsWith("3:"))
+                {
+                    Debug.Log("Username doesn't exist");
+                    error.text = "Username doesn't exist\n Please try again";
+                }
+                else if (responseText.StartsWith("6:"))
+                {
+                    Debug.Log("Incorrect password");
+                    error.text = "Incorrect password\n Try again";
+                }
                 else
                 {
-                    Debug.LogError("Invalid response format");
+                    Debug.LogError("Error parsing response from server: " + responseText);
                     error.text = "Login failed\n Please try again later";
                 }
             }

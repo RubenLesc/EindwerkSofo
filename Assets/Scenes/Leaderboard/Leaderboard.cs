@@ -1,9 +1,9 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.Rendering;
 
 public class Leaderboard : MonoBehaviour
 {
@@ -12,7 +12,7 @@ public class Leaderboard : MonoBehaviour
 
     void Awake()
     {
-        if (DBmanager.username ==null)
+        if (DBmanager.username == null)
         {
             SceneManager.LoadScene(0);
         }
@@ -20,7 +20,6 @@ public class Leaderboard : MonoBehaviour
         {
             StartCoroutine(UpdateLeaderboard());
         }
-        
     }
 
     IEnumerator UpdateLeaderboard()
@@ -35,26 +34,20 @@ public class Leaderboard : MonoBehaviour
             }
             else
             {
-                //split responds (echo)
+                // Process the response
                 string response = www.downloadHandler.text.Trim();
+                Debug.Log("Response: " + response);
 
-                //Split the response into coins and time for seperate labels
-                string[] splitResponse = response.Split(new string[] { "Time" }, System.StringSplitOptions.None);
+                // Split the response into lines
+                string[] lines = response.Split('\n');
 
-                if (splitResponse.Length >= 2)
-                {
-                    //Update leaderboardcoins
-                    leaderboardcoins.text = splitResponse[0].Trim();
-                    //Update leaderboardtime
-                    leaderboardTime.text = splitResponse[1].Trim();
-                }
-                else
-                {
-                    Debug.Log("Response does not contain both coins and time sections");
-                }
+                // Concatenate the lines within each section
+                string coinsText = string.Join("\n", lines, 1, Array.IndexOf(lines, "Time") - 1).Trim();
+                string timeText = string.Join("\n", lines, Array.IndexOf(lines, "Time") + 1, lines.Length - Array.IndexOf(lines, "Time") - 1).Trim();
 
-                // Log the status message
-                Debug.Log("3: Opgeslagen");
+                // Update leaderboard coins and time texts
+                leaderboardcoins.text = coinsText;
+                leaderboardTime.text = timeText;
             }
         }
     }
