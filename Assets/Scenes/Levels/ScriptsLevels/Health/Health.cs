@@ -5,10 +5,10 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Health : MonoBehaviour
+public class Healthclass : MonoBehaviour
 {
     //declaring variables For health
-    [SerializeField] private float StartingHealth;
+    [SerializeField] public float StartingHealth;
     public Animator playerAnimator;
     public player_Movement playerMovement;
     public float CurrentHealth { get; private set; } //Makes it so you can access from anywhere but only modify in this script

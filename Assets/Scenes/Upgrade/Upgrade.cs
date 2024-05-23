@@ -34,6 +34,7 @@ public class Upgrade : MonoBehaviour
     int Health = DBmanager.health;
     int Damage = DBmanager.damage;
     int Speed = DBmanager.speed;
+    //
     
     
     public void GotoMain()
@@ -206,7 +207,7 @@ public class Upgrade : MonoBehaviour
                     //tekst health updaten
                     txtCoins.text = newcoins.ToString();
                     txtCoins2.text = newcoins.ToString();
-                    txtLevelHealth.text = "Level: " + DBmanager.health + "\nNext Upgrade: " + Healthcost;
+                    txtLevelHealth.text = "Level: " + DBmanager.health + "\nNext Upgrade: " + Healthcost ;
                     txtCostHealth.text = "Upgrade\nCost: " + Healthcost;
                     //tekst Speed updaten
                     txtCoins.text = newcoins.ToString();
