@@ -18,9 +18,22 @@ public class Login : MonoBehaviour
 
     IEnumerator LoginUser()
     {
+        string username = Usernamefield.text.Trim();
+        string password = Passwordfield.text.Trim();
+
+        // Check if fields are empty before sending the request
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+        {
+            error.text = "The fields cannot be empty";
+            yield break;
+        }
+
         WWWForm form = new WWWForm();
-        form.AddField("name", Usernamefield.text);
-        form.AddField("password", Passwordfield.text);
+        form.AddField("name", username);
+        form.AddField("password", password);
+
+        Debug.Log("Sending username: " + username);
+        Debug.Log("Sending password: " + password);
 
         using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/login.php", form))
         {
@@ -40,7 +53,7 @@ public class Login : MonoBehaviour
 
                     if (php.Length == 7)
                     {
-                        DBmanager.username = Usernamefield.text;
+                        DBmanager.username = username;
                         DBmanager.admin = int.Parse(php[1]);
                         DBmanager.coins = int.Parse(php[2]);
                         DBmanager.damage = int.Parse(php[3]);
@@ -64,6 +77,11 @@ public class Login : MonoBehaviour
                 {
                     Debug.Log("Incorrect password");
                     error.text = "Incorrect password\n Try again";
+                }
+                else if (responseText.StartsWith("7:"))
+                {
+                    Debug.Log("Cannot be empty");
+                    error.text = "The fields cannot be empty";
                 }
                 else
                 {

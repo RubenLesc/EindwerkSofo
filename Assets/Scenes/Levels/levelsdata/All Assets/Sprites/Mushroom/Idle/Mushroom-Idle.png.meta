@@ -106,19 +106,6 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -130,15 +117,15 @@ TextureImporter:
         y: 0
         width: 80
         height: 64
-      alignment: 9
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ec204766cbe5edd438747f8792b83727
-      internalID: -1737922204
+      spriteID: e228db93fd2d86744bbed1371d770c5d
+      internalID: 69033116
       vertices: []
       indices: 
       edges: []
@@ -151,15 +138,15 @@ TextureImporter:
         y: 0
         width: 80
         height: 64
-      alignment: 9
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e6fdd6f5021bfab428b9bb3d71d78459
-      internalID: 727896475
+      spriteID: cd0c6801b7f56a24ebcaa9cc18dd5984
+      internalID: -1784952240
       vertices: []
       indices: 
       edges: []
@@ -172,15 +159,15 @@ TextureImporter:
         y: 0
         width: 80
         height: 64
-      alignment: 9
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 29daf1f826e72b349986bcc5117bc73d
-      internalID: 712282540
+      spriteID: d3412fda065813248b7fa65e7ad6ddff
+      internalID: -654714658
       vertices: []
       indices: 
       edges: []
@@ -193,15 +180,15 @@ TextureImporter:
         y: 0
         width: 80
         height: 64
-      alignment: 9
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4dc089d8a96bb7a42bfb37d78681558f
-      internalID: -1255669876
+      spriteID: 3a9296feb39a7fc4f8e39e5ac97e9c11
+      internalID: 1289592955
       vertices: []
       indices: 
       edges: []
@@ -214,15 +201,15 @@ TextureImporter:
         y: 0
         width: 80
         height: 64
-      alignment: 9
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a334a71f1e43fd84cb5dbd7131bc5db9
-      internalID: -1106627108
+      spriteID: 07f848681453e284f9d253fb5dfb0e75
+      internalID: 144108655
       vertices: []
       indices: 
       edges: []
@@ -235,15 +222,15 @@ TextureImporter:
         y: 0
         width: 80
         height: 64
-      alignment: 9
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 19ea0ab0c4621e94c8bd6b1146786dd3
-      internalID: -1511298055
+      spriteID: a134a828fd34d614b87f416115eb20ed
+      internalID: 795131883
       vertices: []
       indices: 
       edges: []
@@ -256,15 +243,15 @@ TextureImporter:
         y: 0
         width: 80
         height: 64
-      alignment: 9
+      alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c22ceacdfd895c5448e72d7d7ccadf8d
-      internalID: -765954080
+      spriteID: cdc8ad1647aa12347a306fbbfcddfa93
+      internalID: 312995868
       vertices: []
       indices: 
       edges: []
@@ -280,13 +267,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Mushroom-Idle_0: -1737922204
-      Mushroom-Idle_1: 727896475
-      Mushroom-Idle_2: 712282540
-      Mushroom-Idle_3: -1255669876
-      Mushroom-Idle_4: -1106627108
-      Mushroom-Idle_5: -1511298055
-      Mushroom-Idle_6: -765954080
+      Mushroom-Idle_0: 69033116
+      Mushroom-Idle_1: -1784952240
+      Mushroom-Idle_2: -654714658
+      Mushroom-Idle_3: 1289592955
+      Mushroom-Idle_4: 144108655
+      Mushroom-Idle_5: 795131883
+      Mushroom-Idle_6: 312995868
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

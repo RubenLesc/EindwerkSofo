@@ -10,7 +10,7 @@ public class Healthclass : MonoBehaviour
     //declaring variables For health
     [SerializeField] public float StartingHealth;
     public Animator playerAnimator;
-    public player_Movement playerMovement;
+    
     public float CurrentHealth { get; private set; } //Makes it so you can access from anywhere but only modify in this script
 
     private void Awake()
@@ -39,10 +39,6 @@ public class Healthclass : MonoBehaviour
                 Debug.Log("Animation");
                 playerAnimator.SetTrigger("death");
 
-                if (playerMovement != null)
-                {
-                    playerMovement.StopMovement();
-                }
 
                 StartCoroutine(WaitForSeconds(0.7f));
             }
