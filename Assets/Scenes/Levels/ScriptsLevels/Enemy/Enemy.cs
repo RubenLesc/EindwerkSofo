@@ -15,15 +15,20 @@ public class MeleeEnemy : MonoBehaviour
     // References
     private Animator anim;
     private Collider2D playerCollider;
+    
+    private EnemyPatrol enemyPatrol;
+
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
+        enemyPatrol = GetComponentInParent<EnemyPatrol>();
     }
 
     private void Start()
     {
         player_Movement playerMovement = FindObjectOfType<player_Movement>();
+        
 
         if (playerMovement != null)
         {
@@ -54,6 +59,11 @@ public class MeleeEnemy : MonoBehaviour
                     cooldownTimer = 0;
                     anim.SetTrigger("Attack");
                 }
+            }
+            //checks if player is moving if t
+            if (enemyPatrol != null)
+            {
+                enemyPatrol.enabled = !PlayerInSight();
             }
         }
     }
