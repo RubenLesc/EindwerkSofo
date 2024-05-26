@@ -11,15 +11,18 @@ public class player_Movement : MonoBehaviour
     public Animator animator;
     private SpriteRenderer sprite;
     float directionX;
-    [SerializeField] float MovementSpeed = 7f;
+    float MovementSpeed = (DBmanager.speed * 0.2f + 7);
     [SerializeField] float JumpForce = 14f;
 
     private enum MovementState { idle, walking, jumping }
     private MovementState state;
 
     private bool canMove = true;
+    private bool facingRight = true; // Track the player's facing direction
 
     public BoxCollider2D PlayerCollider { get; private set; }
+
+    private PlayerAttack playerAttack; // Reference to PlayerAttack component
 
     private void Start()
     {
@@ -27,6 +30,7 @@ public class player_Movement : MonoBehaviour
         Player = GetComponent<Rigidbody2D>();
         BoxCollider = GetComponent<BoxCollider2D>();
         sprite = GetComponent<SpriteRenderer>();
+        playerAttack = GetComponent<PlayerAttack>(); // Get the PlayerAttack component
     }
 
     private void Update()
@@ -37,11 +41,11 @@ public class player_Movement : MonoBehaviour
         directionX = Input.GetAxis("Horizontal");
         Player.velocity = new Vector2(MovementSpeed * directionX, Player.velocity.y);
 
-        if (Input.GetButtonDown("Jump") && IsGrounded())
+        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W)) && IsGrounded())
         {
             Player.velocity = new Vector3(Player.velocity.x, JumpForce, 0);
         }
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             SceneManager.LoadScene(2);
         }
@@ -59,12 +63,18 @@ public class player_Movement : MonoBehaviour
         if (directionX > 0f)
         {
             state = MovementState.walking;
-            sprite.flipX = false;
+            if (!facingRight)
+            {
+                Flip();
+            }
         }
         else if (directionX < 0f)
         {
             state = MovementState.walking;
-            sprite.flipX = true;
+            if (facingRight)
+            {
+                Flip();
+            }
         }
         else
         {
@@ -81,9 +91,21 @@ public class player_Movement : MonoBehaviour
         animator.SetInteger("MovementState", (int)state);
     }
 
+    private void Flip()
+    {
+        facingRight = !facingRight;
+
+        // Call the Flip() method of the PlayerAttack component
+        playerAttack.Flip();
+
+        // Flip the sprite horizontally
+        sprite.flipX = !sprite.flipX;
+    }
+
     public void StopMovement()
     {
         canMove = false;
+        Player.velocity = Vector2.zero; // Set the velocity to zero
     }
 
     public void ResumeMovement()

@@ -6,14 +6,12 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Upgrade : MonoBehaviour
-{   
-    //declareren
+{
     int currentcoins = 0;
-    int Damagecost = 1;
-    int Healthcost = 2;
-    int Speedcost = 3;
+    int Damagecost = 50;
+    int Healthcost = 100;
+    int Speedcost = 75;
     int newcoins = 0;
-    [SerializeField] public int CostPerUpgrade = 20;
     bool CheckDamage = false;
     bool CheckHealth = false;
     bool CheckSpeed = false;
@@ -34,22 +32,21 @@ public class Upgrade : MonoBehaviour
     int Health = DBmanager.health;
     int Damage = DBmanager.damage;
     int Speed = DBmanager.speed;
-    //
-    
-    
+
     public void GotoMain()
-    {
-        SceneManager.LoadScene(2); //Gaan naar mainmenu Scene (2) (buildsettings in unity) file --> buildsettings)
+    {   //exit button
+        SceneManager.LoadScene(2); // Go to main menu Scene (2) (build settings in Unity)
     }
+
     private void Awake()
-    {   //als de scene geladen word dan word er gekeken of je bent ingelogd of niet als je bent ingelogd dan gaat de code als het moet anders wordt je naar de loginpagina gestuurt
+    {
         if (StrUsername == null)
         {
             SceneManager.LoadScene(0);
         }
         else
-        {   //tekst overal inladen
-            //bovenaan
+        {
+            // Initialize texts
             currentcoins = DBmanager.coins;
             StrUsername = StrUsername.ToUpper();
             txtUsername.text = "Username\n" + StrUsername;
@@ -57,47 +54,94 @@ public class Upgrade : MonoBehaviour
             txtCoins.text = currentcoins.ToString();
             txtCoins2.text = currentcoins.ToString();
 
-
-            //tekst upgrade updaten
-            txtCoins.text = currentcoins.ToString();
-            txtCoins2.text = currentcoins.ToString();
-            txtLevelDamage.text = "Level: " + DBmanager.damage + "\nNext Upgrade: " + Damagecost;
-            Damagecost = DBmanager.damage * CostPerUpgrade + CostPerUpgrade;
-            txtCostDamage.text = "Upgrade\nCost: " + Damagecost;
-            //tekst health updaten
-            txtCoins.text = currentcoins.ToString();
-            txtCoins2.text = currentcoins.ToString();
-            txtLevelHealth.text = "Level: " + DBmanager.health + "\nNext Upgrade: " + Healthcost;
-            Healthcost = DBmanager.health * CostPerUpgrade + CostPerUpgrade;
-            txtCostHealth.text = "Upgrade\nCost: " + Healthcost;
-            //tekst Speed updaten
-            txtCoins.text = currentcoins.ToString();
-            txtCoins2.text = currentcoins.ToString();
-            txtLevelSpeed.text = "Level: " + DBmanager.speed + "\nNext Upgrade: " + Speedcost;
-            Speedcost = DBmanager.speed * CostPerUpgrade + CostPerUpgrade;
-            txtCostSpeed.text = "Upgrade\nCost: " + Speedcost;
-
+            // Update texts for upgrades
+            UpdateUpgradeTexts();
         }
-
     }
+
+    private void UpdateUpgradeTexts()
+    {
+        UpdateDamageUpgradeText();
+        UpdateHealthUpgradeText();
+        UpdateSpeedUpgradeText();
+        // Update coin texts
+        txtCoins.text = currentcoins.ToString();
+        txtCoins2.text = currentcoins.ToString();
+        Debug.Log(DBmanager.damage);
+    }
+
+    private void UpdateDamageUpgradeText()
+    {
+        if (DBmanager.damage >= 10) //10 is the maximum damage level
+        {
+            txtLevelDamage.text = "Level: " + DBmanager.damage + "\nMax Level";
+            txtCostDamage.text = "Max Level";
+            btnUpgradeDamage.interactable = false;
+        }
+        else if (DBmanager.damage == 9) // Second to last level
+        {
+            txtLevelDamage.text = "Level: " + DBmanager.damage + "\nNext Upgrade: Max Level";
+            txtCostDamage.text = "Upgrade\nCost: " + Damagecost;
+        }
+        else
+        {
+            txtLevelDamage.text = "Level: " + DBmanager.damage + "\nNext Upgrade: " + (DBmanager.damage + 1 )+ " damage";
+            txtCostDamage.text = "Upgrade\nCost: " + Damagecost;
+        }
+    }
+
+    private void UpdateHealthUpgradeText()
+    {
+        if (DBmanager.health >= 19) //18 is the maximum health level
+        {
+            txtLevelHealth.text = "Level: " + DBmanager.health + "\nMax Level";
+            txtCostHealth.text = "Max Level";
+            btnUpgradeHealth.interactable = false;
+        }
+        else if (DBmanager.health == 18) // Second to last level
+        {
+            txtLevelHealth.text = "Level: " + DBmanager.health + "\nNext Upgrade: Max Level";
+            txtCostHealth.text = "Upgrade\nCost: " + Healthcost;
+        }
+        else
+        {
+            float healthcalc = ((DBmanager.health * 0.5f) + 1f); // Calculate the next upgrade value based on current health level
+            txtLevelHealth.text = "Level: " + DBmanager.health + "\nNext Upgrade: " + healthcalc + " hearts";
+            txtCostHealth.text = "Upgrade\nCost: " + Healthcost;
+        }
+    }
+
+    private void UpdateSpeedUpgradeText()
+    {
+        if (DBmanager.speed >= 30) //30 is the maximum speed level
+        {
+            txtLevelSpeed.text = "Level: " + DBmanager.speed + "\nMax Level";
+            txtCostSpeed.text = "Max Level";
+            btnUpgradeSpeed.interactable = false;
+        }
+        else if (DBmanager.speed == 29) // Second to last level
+        {
+            txtLevelSpeed.text = "Level: " + DBmanager.speed + "\nNext Upgrade: Max Level";
+            txtCostSpeed.text = "Upgrade\nCost: " + Speedcost;
+        }
+        else
+        {
+            txtLevelSpeed.text = "Level: " + DBmanager.speed + "\nNext Upgrade: " + (Speed * 0.2f + 7) + " speed";
+            txtCostSpeed.text = "Upgrade\nCost: " + Speedcost;
+        }
+    }
+
     public void UpgradeSword()
     {
-        
         // Decrease coins by "Price"
         currentcoins = DBmanager.coins;
         Damage = DBmanager.damage + 1;
-        Damagecost = DBmanager.damage * CostPerUpgrade + CostPerUpgrade;
         newcoins = currentcoins - Damagecost;
-        
 
         // Check if the player has enough coins for the upgrade
         if (newcoins >= 0)
         {
-
-            //kijken welke upgrade je hebt gekocht
             CheckDamage = true;
-
-            // Send the updated coins and other player data to the database
             StartCoroutine(SaveCurrentcoins(newcoins, Damage, Health, Speed));
         }
         else
@@ -105,22 +149,19 @@ public class Upgrade : MonoBehaviour
             Debug.Log("Not enough coins for the upgrade.");
         }
     }
+
     public void UpgradeHealth()
     {
-
         // Decrease coins by "Price"
         currentcoins = DBmanager.coins;
         Health = DBmanager.health + 1;
-        Healthcost = DBmanager.health * CostPerUpgrade + CostPerUpgrade;
-        newcoins = currentcoins - Healthcost;
+       
+        newcoins = currentcoins - Healthcost; // Recalculate the cost
 
         // Check if the player has enough coins for the upgrade
         if (newcoins >= 0)
         {
-            //kijken welke upgrade je hebt gekocht
             CheckHealth = true;
-            
-            // Send the updated coins and other player data to the database
             StartCoroutine(SaveCurrentcoins(newcoins, Damage, Health, Speed));
         }
         else
@@ -128,22 +169,18 @@ public class Upgrade : MonoBehaviour
             Debug.Log("Not enough coins for the upgrade.");
         }
     }
+
     public void UpgradeSpeed()
     {
-
         // Decrease coins by "Price"
         currentcoins = DBmanager.coins;
         Speed = DBmanager.speed + 1;
-        Speedcost = DBmanager.speed * CostPerUpgrade + CostPerUpgrade;
-        newcoins = currentcoins - Speedcost;
+        newcoins = currentcoins - Speedcost; // Now use the updated cost
 
         // Check if the player has enough coins for the upgrade
         if (newcoins >= 0)
         {
-            //kijken welke upgrade je hebt gekocht
             CheckSpeed = true;
-
-            // Send the updated coins and other player data to the database
             StartCoroutine(SaveCurrentcoins(newcoins, Damage, Health, Speed));
         }
         else
@@ -154,7 +191,6 @@ public class Upgrade : MonoBehaviour
 
     IEnumerator SaveCurrentcoins(int currentcoins, int damage, int health, int speed)
     {
-        // form maken zodat je data kan sturen naar het script
         WWWForm form = new WWWForm();
         form.AddField("coins", currentcoins);
         form.AddField("username", DBmanager.username);
@@ -162,7 +198,6 @@ public class Upgrade : MonoBehaviour
         form.AddField("health", health);
         form.AddField("speed", speed);
 
-        // Send the request to the PHP script
         using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/upgrade.php", form))
         {
             yield return www.SendWebRequest();
@@ -173,63 +208,29 @@ public class Upgrade : MonoBehaviour
                 {
                     Debug.Log(www.downloadHandler.text);
 
-                    //update local variable van coins naar de nieuwe waarde
+                    // Update local variables
                     DBmanager.coins = currentcoins;
-                    //Het level van je stats verhogen met 1
-                    if (CheckDamage == true)
-                    {
-                        DBmanager.damage = Damage;
-                    }
-                    else if (CheckHealth == true)
-                    {
-                        DBmanager.health = Health;
-                    }
-                    else if (CheckSpeed == true)
-                    {
-                        DBmanager.speed = Speed;
-                    }
-                    else
-                    {
-                        Debug.Log("Er is iets misgegaan, je hebt blijkbaar niets gekocht");
-                    }
+                    if (CheckDamage) DBmanager.damage = Damage;
+                    if (CheckHealth) DBmanager.health = Health;
+                    if (CheckSpeed) DBmanager.speed = Speed;
 
+                    // Update UI
+                    UpdateUpgradeTexts();
 
-                    DBmanager.health = Health;
-                    DBmanager.speed = Speed;
-                    //tekst bovenaan veranderen door de nieuwe waarde
-                    txtCoins.text = "Coins\n" + currentcoins;
-
-                    //tekst upgrade updaten
-                    txtCoins.text = newcoins.ToString();
-                    txtCoins2.text = newcoins.ToString();
-                    txtLevelDamage.text = "Level: " + DBmanager.damage + "\nNext Upgrade: " + Damagecost;
-                    txtCostDamage.text = "Upgrade\nCost: " + Damagecost;
-                    //tekst health updaten
-                    txtCoins.text = newcoins.ToString();
-                    txtCoins2.text = newcoins.ToString();
-                    txtLevelHealth.text = "Level: " + DBmanager.health + "\nNext Upgrade: " + Healthcost ;
-                    txtCostHealth.text = "Upgrade\nCost: " + Healthcost;
-                    //tekst Speed updaten
-                    txtCoins.text = newcoins.ToString();
-                    txtCoins2.text = newcoins.ToString();
-                    txtLevelSpeed.text = "Level: " + DBmanager.speed + "\nNext Upgrade: " + Speedcost;
-                    txtCostSpeed.text = "Upgrade\nCost: " + Speedcost;
-
-                    //Alle 3 op false zetten zodat je zeker niet 2 upgrades tergelijk doet terwijl je maar voor 1 betaalt
+                    // Reset checks
                     CheckDamage = false;
                     CheckHealth = false;
                     CheckSpeed = false;
                 }
                 else
-                {   //foutencontrole console
+                {
                     Debug.Log(www.downloadHandler.text);
                 }
             }
             else
-            {   //foutencontrole console
-                Debug.Log("Kan upgrades.php niet vinden" + www.downloadHandler.text);
+            {
+                Debug.Log("Failed to connect to the server. Error: " + www.error);
             }
         }
     }
-
 }

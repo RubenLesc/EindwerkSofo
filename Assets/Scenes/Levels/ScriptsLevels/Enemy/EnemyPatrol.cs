@@ -30,14 +30,12 @@ public class EnemyPatrol : MonoBehaviour
     private void Awake()
     {
         initScale = Enemy.localScale;
+        
     }
 
     private void OnDisable()
     {   //set moving false when enemy patrol get disabled (on disable --> get run when an object get disabled or destroyed)
         anim.SetBool("Moving", false);
-
-
-        //make mushroom move again !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
 
@@ -53,6 +51,7 @@ public class EnemyPatrol : MonoBehaviour
             {
                 //change direction
                 ChangeDirection();
+                
             }
         }
         else
@@ -75,6 +74,7 @@ public class EnemyPatrol : MonoBehaviour
         idleTimer += Time.deltaTime;
         if(idleTimer > IdleDuration)
             movingLeft = !movingLeft;
+        
 
     }
     private void Movedirection(int _direction)

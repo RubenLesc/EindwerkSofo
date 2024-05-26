@@ -90,4 +90,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.51666665
+    functionName: Restart
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: b9ff5af99160cc44f9a32628ab83d59f, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

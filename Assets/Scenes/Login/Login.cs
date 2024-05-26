@@ -32,9 +32,6 @@ public class Login : MonoBehaviour
         form.AddField("name", username);
         form.AddField("password", password);
 
-        Debug.Log("Sending username: " + username);
-        Debug.Log("Sending password: " + password);
-
         using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/login.php", form))
         {
             yield return www.SendWebRequest();
@@ -42,14 +39,12 @@ public class Login : MonoBehaviour
             if (www.result == UnityWebRequest.Result.Success)
             {
                 string responseText = www.downloadHandler.text.Trim();
-                Debug.Log("Response from server: " + responseText);
 
                 // Check if the response starts with an error code
                 if (responseText.StartsWith("0\t"))
                 {
                     // Split the response text by tab character
                     string[] php = responseText.Split('\t');
-                    Debug.Log("Response split length: " + php.Length);
 
                     if (php.Length == 7)
                     {

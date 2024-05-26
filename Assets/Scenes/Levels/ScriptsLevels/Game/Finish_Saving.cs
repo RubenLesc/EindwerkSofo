@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,6 +7,16 @@ public class Finish_Saving : MonoBehaviour
 {
     // Reference to the GameManager
     public GameManager gameManager;
+    private Animator playerAnimator;
+    private player_Movement playerMovement;
+
+    private void Start()
+    {
+        // Get the Animator component from the player character
+        GameObject player = GameObject.Find("Player");
+        playerAnimator = player.GetComponent<Animator>();
+        playerMovement = player.GetComponent<player_Movement>(); // Get the player_Movement component
+    }
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -17,20 +26,38 @@ public class Finish_Saving : MonoBehaviour
 
             // Get the collected coins and elapsed time from the GameManager
             int collectedCoins = gameManager.CoinsCollected;
-            float elapsedTime = gameManager.GetElapsedTime(); // Retrieve the elapsed time
+            //See how long you took for completing the level
+            float elapsedTime = gameManager.GetElapsedTime();
 
             // Save the collected coins and elapsed time in the DBmanager
             DBmanager.coins = collectedCoins;
-            DBmanager.elapsedTime = elapsedTime; // Send the elapsed time to the DBmanager
+            DBmanager.elapsedTime = elapsedTime; // Send the elapsed time to the database
+
+            //Go to winanimation to start playing the animation
+            Winanimation();
 
             // Send collected coins and elapsed time to the database
             StartCoroutine(SendDataToDB(collectedCoins, elapsedTime));
 
-            // Load the next scene
-            SceneManager.LoadScene(2);
+            //wait 2seconds before switching scene so you see the winning animation
+            Invoke("GoToMain", 2f);
         }
     }
+    void Winanimation()
+    {
+        if (playerMovement != null)
+        {
+            playerMovement.StopMovement();
+        }
+        //Play win animation
+        playerAnimator.SetTrigger("Win");
+    }
 
+    void GoToMain()
+    {
+        // Load the next scene
+        SceneManager.LoadScene(2);
+    }
     IEnumerator SendDataToDB(int collectedCoins, float elapsedTime)
     {
         // Create a form object for sending data to the PHP script

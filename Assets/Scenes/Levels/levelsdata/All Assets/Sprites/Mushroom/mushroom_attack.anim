@@ -97,10 +97,10 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.41666666
-    functionName: DamagePlayer
+  - time: 0.76666665
+    functionName: AttackEnd
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 11500000, guid: 8e583de25928875408ea0f58bbf0e1bf, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

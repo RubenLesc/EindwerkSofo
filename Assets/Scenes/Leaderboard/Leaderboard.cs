@@ -52,7 +52,7 @@ public class Leaderboard : MonoBehaviour
         }
     }
 
-    public void GotoMain()
+     public void GotoMain()
     {
         SceneManager.LoadScene(2); // Go to main menu scene (2) (build settings in Unity) File -> Build Settings)
     }

@@ -1,28 +1,28 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Account : MonoBehaviour
 {
     public Text Username;
+    public Text Level1;
     public Button Logout;
     public InputField currentPasswordInput;
     public InputField newPasswordInput;
     public InputField confirmPasswordInput;
     public Text error;
+
     public void GotoMain()
     {
-        SceneManager.LoadScene(2); //Gaan naar mainmenu Scene (2) (buildsettings in unity) file --> buildsettings)
+        SceneManager.LoadScene(2);
     }
-    public void Awake()
-    {   
-        //als scene account word geopent dan word in de label username de gebruikersnaam getoont in grote letters
-        string StrUsername = DBmanager.username;
 
-        if (StrUsername == null )
+    public void Awake()
+    {
+        string StrUsername = DBmanager.username;
+        if (StrUsername == null)
         {
             SceneManager.LoadScene(0);
         }
@@ -30,6 +30,7 @@ public class Account : MonoBehaviour
         {
             StrUsername = StrUsername.ToUpper();
             Username.text = "Username: " + StrUsername;
+            StartCoroutine(PersonalLeaderboard());
         }
     }
 
@@ -43,8 +44,6 @@ public class Account : MonoBehaviour
         StartCoroutine(ChangePasswordCoroutine(username, currentPassword, newPassword, confirmPassword));
     }
 
-
-
     private IEnumerator ChangePasswordCoroutine(string username, string currentPassword, string newPassword, string confirmPassword)
     {
         WWWForm form = new WWWForm();
@@ -53,67 +52,69 @@ public class Account : MonoBehaviour
         form.AddField("new_password", newPassword);
         form.AddField("confirm_password", confirmPassword);
 
-        UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/changepassword.php", form);
-
-        // Debug log to see if the request is sent
-        Debug.Log("Sending request");
-
-        yield return www.SendWebRequest();
-
-        if (www.result != UnityWebRequest.Result.Success)
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/changepassword.php", form))
         {
-            // Debug log to see the error if request failed
-            Debug.Log("Request failed: " + www.error);
-            error.text = "Error: " + www.error;
-        }
-        else
-        {
-            // Debug log to see the response text
-            string responseText = www.downloadHandler.text;
-            Debug.Log("Response: " + responseText);
+            Debug.Log("Sending request");
+            yield return www.SendWebRequest();
 
-            // Handle the server response
-            switch (responseText)
+            if (www.result != UnityWebRequest.Result.Success)
             {
-                case "0":
-                    error.text = "Password changed successfully.";
-                    ResetInputFields();
-                    break;
-                case "1: Connection failed: ...":
-                    error.text = "Connection failed.";
-                    break;
-                case "2: Required fields are missing":
-                    error.text = "Please fill in all required fields.";
-                    break;
-                case "5: Either no user with name, or more than one":
-                    error.text = "User not found or duplicate users.";
-                    break;
-                case "6: Incorrect current password":
-                    error.text = "Current password is incorrect.";
-                    break;
-                case "7: Update password query failed: ...":
-                    error.text = "Failed to update password.";
-                    break;
-                case "8: New password and confirmation do not match":
-                    error.text = "New passwords do not match.";
-                    break;
-                case "9: New password must be at least 5 characters long":
-                    error.text = "New password must be at least 5 characters long.";
-                    break;
-                default:
-                    error.text = "Unexpected error: " + responseText;
-                    break;
+                Debug.Log("Request failed: " + www.error);
+                error.text = "Error: " + www.error;
+            }
+            else
+            {
+                string responseText = www.downloadHandler.text;
+                Debug.Log("Response: " + responseText);
+
+                switch (responseText)
+                {
+                    // Handle different response cases
+                }
             }
         }
     }
 
-    private void ResetInputFields()
+    IEnumerator PersonalLeaderboard()
     {
-        currentPasswordInput.text = "";
-        newPasswordInput.text = "";
-        confirmPasswordInput.text = "";
-    }
+        WWWForm form = new WWWForm();
+        form.AddField("username", DBmanager.username);
+        form.AddField("id", DBmanager.playerId);
 
+        using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/personalrecords.php", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.ConnectionError ||
+                www.result == UnityWebRequest.Result.ProtocolError)
+            {
+                Debug.LogError(www.error);
+                yield break;
+            }
+
+            string response = www.downloadHandler.text;
+            string[] times = response.Split('|');
+
+            if (times.Length >= 4)
+            {
+                string level1Time = times[0].Trim();
+                string level2Time = times[1].Trim();
+                string level3Time = times[2].Trim();
+                string level4Time = times[3].Trim();
+
+                Debug.Log(level1Time);
+                Debug.Log(level2Time);
+                Debug.Log(level3Time);
+                Debug.Log(level4Time);
+
+                Level1.text = level1Time + "\n\n" + level2Time + "\n\n" + level3Time + "\n\n" + level4Time;
+            }
+            else
+            {
+                Debug.LogError("Invalid response format");
+            }
+        }
+    }
 
     public void Loggout()
     {
@@ -121,6 +122,3 @@ public class Account : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 }
-
-
-

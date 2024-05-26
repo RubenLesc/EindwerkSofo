@@ -1,4 +1,3 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -7,56 +6,45 @@ using UnityEngine.SceneManagement;
 
 public class Healthclass : MonoBehaviour
 {
-    //declaring variables For health
-    [SerializeField] public float StartingHealth;
+    private float StartingHealth;
     public Animator playerAnimator;
-    
-    public float CurrentHealth { get; private set; } //Makes it so you can access from anywhere but only modify in this script
+    public float CurrentHealth { get; private set; }
 
     private void Awake()
     {
+        StartingHealth = 1 + 0.5f *(DBmanager.health - 1);
+        
         CurrentHealth = StartingHealth;
     }
+
     public void TakeDamage(float _damage)
     {
-
-    //It ensures value stays within specified range (Clamp)
-    //If value is less than min (0) returns min
-    //If value is greater than max (StartingHealth) returns max (StartingHealth)
-    //If value is between min and max (Between 0 and StartingHealth, returns value itself (currenthealth)
         CurrentHealth = Mathf.Clamp(CurrentHealth - _damage, 0, StartingHealth);
 
         if (CurrentHealth > 0)
         {
-            //player gets damaged
+            playerAnimator.SetTrigger("hurt");
         }
         else
         {
-            //player dies
-            Debug.Log("Die");
-            if (playerAnimator != null)
+            playerAnimator.SetTrigger("death");
+            if (GetComponent<player_Movement>() != null)
             {
-                Debug.Log("Animation");
-                playerAnimator.SetTrigger("death");
-
-
-                StartCoroutine(WaitForSeconds(0.7f));
+                GetComponent<player_Movement>().enabled = false;
             }
-        }
 
-        IEnumerator WaitForSeconds(float seconds)
-        {
-            //wait for 0.7 seconds for the animation to end
-            yield return new WaitForSeconds(seconds);
-            //restart the current scene so the time restarts
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
-    private void Update()
+
+
+
+    public bool IsAlive()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            TakeDamage(0.5f); // Call TakeDamage on the playerhealth instance
-        }
+        return CurrentHealth > 0;
     }
+    private void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
 }
