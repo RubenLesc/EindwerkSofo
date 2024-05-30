@@ -63,8 +63,7 @@ public class MeleeEnemy : MonoBehaviour
                         if (cooldownTimer >= attackCooldown)
                         {
                             Debug.Log("Attack player");
-                            DamagePlayer();
-                            
+                            anim.SetTrigger("Attack");
                             // Reset the cooldown timer for the next cooldown cycle
                             cooldownTimer = 0f;
                         }
@@ -119,7 +118,6 @@ public class MeleeEnemy : MonoBehaviour
             if (playerHealth != null)
             {
                 Debug.Log("Hit enemy " + damage + " Damage");
-                anim.SetTrigger("Attack");
                 playerHealth.TakeDamage(damage);
             }
         }

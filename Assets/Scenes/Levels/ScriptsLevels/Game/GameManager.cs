@@ -14,19 +14,19 @@ public class GameManager : MonoBehaviour
     private float elapsedTime = 0f;
     private bool isTiming = true;
 
-    public void Awake()
-    {
-        // Check if the user is logged in else redirect to the login scene
-        if (DBmanager.username == null)
-        {
-            SceneManager.LoadScene(0);
-        }
-        else
-        {
-            CoinsCollected = DBmanager.coins;
-            DamageLevel = DBmanager.damage;
-        }
-    }
+    //public void Awake()
+    //{
+    //    // Check if the user is logged in else redirect to the login scene
+    //    if (DBmanager.username == null)
+    //    {
+    //        SceneManager.LoadScene(0);
+    //    }
+    //    else
+    //    {
+    //        CoinsCollected = DBmanager.coins;
+    //        DamageLevel = DBmanager.damage;
+    //    }
+    //}
 
     private void Start()
     {

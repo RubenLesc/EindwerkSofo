@@ -66,6 +66,7 @@ public class Finish_Saving : MonoBehaviour
         form.AddField("username", DBmanager.username);
         form.AddField("elapsedTime", elapsedTime.ToString());
         form.AddField("id", DBmanager.playerId);
+        form.AddField("level", DBmanager.level);
 
         // Send the request to the PHP script
         using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/finish.php", form))

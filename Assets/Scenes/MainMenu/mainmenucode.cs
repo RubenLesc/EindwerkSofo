@@ -8,17 +8,20 @@ public class MainmenuCode : MonoBehaviour
 {
     public Text Username;
     public Text Coins;
-        public Text Username2;
+    public Text Username2;
     public Text Coins2;
+    public Button adminbutton;
     public void Awake()
     {
-        //als scene account word geopent dan word in de label username de gebruikersnaam getoont in grote letters
+        //When scene is opened the username and coins are displayed
         string StrUsername = DBmanager.username;
         int strcoins = DBmanager.coins;
+        int admin = DBmanager.admin;
 
         if (StrUsername == null)
         {
             SceneManager.LoadScene(0);
+            
         }   
         else
         {
@@ -26,6 +29,15 @@ public class MainmenuCode : MonoBehaviour
             //schaduw
             Username.text = "Welcome: " + StrUsername;
             Username2.text = "Welcome: " + StrUsername;
+            //Check if they have permisson to acces the admin menu
+            if (admin == 1)
+            {
+                adminbutton.interactable = true;
+            }
+            else if (admin != 1)
+            {
+                adminbutton.interactable = false;
+            }
         }
         //schaduw
         Coins.text =  strcoins.ToString();

@@ -20,22 +20,30 @@ public class MainmenuNavigation : MonoBehaviour
     }
     public void GoToLevel1()
     {
+        DBmanager.level = 1;
         SceneManager.LoadScene(6);//Gaan naar Level1  (6) (buildsettings in unity) file --> buildsettings)
     }
     public void GoToLevel2()
     {
-        SceneManager.LoadScene(8);//Gaan naar Level2  (8) (buildsettings in unity) file --> buildsettings)
+        DBmanager.level = 2;
+        SceneManager.LoadScene(9);//Gaan naar Level2  (9) (buildsettings in unity) file --> buildsettings)
     }
     public void GoToLevel3()
     {
-        SceneManager.LoadScene(9);//Gaan naar Level3  (9) (buildsettings in unity) file --> buildsettings)
+        DBmanager.level = 3;
+        SceneManager.LoadScene(10);//Gaan naar Level3  (10) (buildsettings in unity) file --> buildsettings)
     }
     public void GoToLevel4()
     {
-        SceneManager.LoadScene(10);//Gaan naar Level4  (10) (buildsettings in unity) file --> buildsettings)
+        DBmanager.level = 4;
+        SceneManager.LoadScene(11);//Gaan naar Level4  (11) (buildsettings in unity) file --> buildsettings)
     }
     public void GoToHelp()
     {
         SceneManager.LoadScene(7);//Gaan naar Controls Pagina  (7) (buildsettings in unity) file --> buildsettings)
+    }
+    public void GoToAdmin()
+    {
+        SceneManager.LoadScene(8);//Gaan naar Admin Pagina  (7) (buildsettings in unity) file --> buildsettings)
     }
 }

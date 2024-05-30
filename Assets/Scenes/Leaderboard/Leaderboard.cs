@@ -8,7 +8,10 @@ using UnityEngine.SceneManagement;
 public class Leaderboard : MonoBehaviour
 {
     public Text leaderboardcoins;
-    public Text leaderboardTime;
+    public Text leaderboardTimeLevel1;
+    public Text leaderboardTimeLevel2;
+    public Text leaderboardTimeLevel3;
+    public Text leaderboardTimeLevel4;
 
     void Awake()
     {
@@ -38,21 +41,35 @@ public class Leaderboard : MonoBehaviour
                 string response = www.downloadHandler.text.Trim();
                 Debug.Log("Response: " + response);
 
-                // Split the response into lines
-                string[] lines = response.Split('\n');
+                // Split the response into sections
+                string[] sections = response.Split(new string[] { "Time Level 1", "Time Level 2", "Time Level 3", "Time Level 4" }, StringSplitOptions.None);
 
-                // Concatenate the lines within each section
-                string coinsText = string.Join("\n", lines, 1, Array.IndexOf(lines, "Time") - 1).Trim();
-                string timeText = string.Join("\n", lines, Array.IndexOf(lines, "Time") + 1, lines.Length - Array.IndexOf(lines, "Time") - 1).Trim();
+                if (sections.Length >= 5)
+                {
+                    // Coins section
+                    leaderboardcoins.text = sections[0].Trim();
 
-                // Update leaderboard coins and time texts
-                leaderboardcoins.text = coinsText;
-                leaderboardTime.text = timeText;
+                    // Time level 1 section
+                    leaderboardTimeLevel1.text = "" + sections[1].Trim();
+
+                    // Time level 2 section
+                    leaderboardTimeLevel2.text = "" + sections[2].Trim();
+
+                    // Time level 3 section
+                    leaderboardTimeLevel3.text = "" + sections[3].Trim();
+
+                    // Time level 4 section
+                    leaderboardTimeLevel4.text = "" + sections[4].Trim();
+                }
+                else
+                {
+                    Debug.LogError("Unexpected response format.");
+                }
             }
         }
     }
 
-     public void GotoMain()
+    public void GotoMain()
     {
         SceneManager.LoadScene(2); // Go to main menu scene (2) (build settings in Unity) File -> Build Settings)
     }

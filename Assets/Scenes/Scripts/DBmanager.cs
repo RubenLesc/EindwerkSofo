@@ -17,6 +17,7 @@ public static class DBmanager
     public static int speed;
     public static int health;
     public static float elapsedTime;
+    public static int level;
 
     public static bool LoggedIn { get { return username != null; } }
 

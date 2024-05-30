@@ -1,8 +1,10 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
 
 public class Login : MonoBehaviour
 {
@@ -40,54 +42,69 @@ public class Login : MonoBehaviour
             {
                 string responseText = www.downloadHandler.text.Trim();
 
-                // Check if the response starts with an error code
-                if (responseText.StartsWith("0\t"))
+                try
                 {
-                    // Split the response text by tab character
-                    string[] php = responseText.Split('\t');
-
-                    if (php.Length == 7)
+                    // Check if the response starts with an error code
+                    if (responseText.StartsWith("0\t"))
                     {
-                        DBmanager.username = username;
-                        DBmanager.admin = int.Parse(php[1]);
-                        DBmanager.coins = int.Parse(php[2]);
-                        DBmanager.damage = int.Parse(php[3]);
-                        DBmanager.speed = int.Parse(php[4]);
-                        DBmanager.health = int.Parse(php[5]);
-                        DBmanager.playerId = int.Parse(php[6]);
-                        SceneManager.LoadScene(2); // Go to the main menu scene
+                        // Split the response text by tab character
+                        string[] php = responseText.Split('\t');
+
+                        if (php.Length == 7)
+                        {
+                            DBmanager.username = username;
+                            DBmanager.admin = int.Parse(php[1]);
+                            DBmanager.coins = int.Parse(php[2]);
+                            DBmanager.damage = int.Parse(php[3]);
+                            DBmanager.speed = int.Parse(php[4]);
+                            DBmanager.health = int.Parse(php[5]);
+                            DBmanager.playerId = int.Parse(php[6]);
+                            SceneManager.LoadScene(2); // Go to the main menu scene
+                        }
+                        else
+                        {
+                            Debug.LogError("Unexpected response format: " + responseText);
+                            error.text = "Login failed\n Please try again later";
+                        }
+                    }
+                    else if (responseText.StartsWith("3:"))
+                    {
+                        Debug.Log("Username doesn't exist");
+                        error.text = "Username doesn't exist\n Please try again";
+                    }
+                    else if (responseText.StartsWith("6:"))
+                    {
+                        Debug.Log("Incorrect password");
+                        error.text = "Incorrect password\n Try again";
+                    }
+                    else if (responseText.StartsWith("7:"))
+                    {
+                        Debug.Log("Cannot be empty");
+                        error.text = "The fields cannot be empty";
                     }
                     else
                     {
-                        Debug.LogError("Unexpected response format: " + responseText);
+                        Debug.LogError("Error parsing response from server: " + responseText);
                         error.text = "Login failed\n Please try again later";
                     }
                 }
-                else if (responseText.StartsWith("3:"))
+                catch (Exception ex)
                 {
-                    Debug.Log("Username doesn't exist");
-                    error.text = "Username doesn't exist\n Please try again";
-                }
-                else if (responseText.StartsWith("6:"))
-                {
-                    Debug.Log("Incorrect password");
-                    error.text = "Incorrect password\n Try again";
-                }
-                else if (responseText.StartsWith("7:"))
-                {
-                    Debug.Log("Cannot be empty");
-                    error.text = "The fields cannot be empty";
-                }
-                else
-                {
-                    Debug.LogError("Error parsing response from server: " + responseText);
+                    Debug.LogError("Exception caught while processing response: " + ex.Message);
                     error.text = "Login failed\n Please try again later";
                 }
             }
             else
             {
                 Debug.LogError("Failed to send web request: " + www.error);
-                error.text = "Connection error\n Please try again later";
+                error.text = "Connection error";
+                //checks if you have connection with the database
+                switch (www.result)
+                {
+                    case UnityWebRequest.Result.ConnectionError:
+                        error.text = "Check if you have connection with the database";
+                        break;
+                }
             }
         }
     }

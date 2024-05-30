@@ -67,10 +67,6 @@ public class Account : MonoBehaviour
                 string responseText = www.downloadHandler.text;
                 Debug.Log("Response: " + responseText);
 
-                switch (responseText)
-                {
-                    // Handle different response cases
-                }
             }
         }
     }
