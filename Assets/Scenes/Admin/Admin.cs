@@ -9,14 +9,14 @@ using UnityEngine.SceneManagement;
 public class Admin : MonoBehaviour
 {
     public string url = "http://localhost/sqlconnect/adminloading.php";
-    public string url2 = "http://localhost/sqlconnect/adminupdate.php"; // URL for update/delete PHP script
+    public string url2 = "http://localhost/sqlconnect/adminupdate.php";
     public Dropdown usernameDropdown;
     public Toggle adminToggle;
     public Dropdown deleteDropdown;
     public InputField coinsInputField;
-    public InputField newPasswordInputField; 
-    public InputField confirmPasswordInputField; 
-    public Text feedbackText; 
+    public InputField newPasswordInputField;
+    public InputField confirmPasswordInputField;
+    public Text feedbackText;
 
     private List<User> users = new List<User>();
 
@@ -24,15 +24,13 @@ public class Admin : MonoBehaviour
     {
         if (DBmanager.username == null)
         {
-            SceneManager.LoadScene(0);
-
+            SceneManager.LoadScene(0); // Go to login if no username
         }
         else
         {
-            StartCoroutine(GetUsers());
-            coinsInputField.onValueChanged.AddListener(delegate { ValidateInput(); });
+            StartCoroutine(GetUsers()); // Fetch users from server
+            coinsInputField.onValueChanged.AddListener(delegate { ValidateInput(); }); // Validate coins input
         }
-        
     }
 
     IEnumerator GetUsers()
@@ -46,7 +44,6 @@ public class Admin : MonoBehaviour
         }
         else
         {
-            // Parse response
             string data = www.downloadHandler.text;
             string[] entries = data.Split(';');
 
@@ -58,15 +55,14 @@ public class Admin : MonoBehaviour
                 {
                     string username = fields[0];
                     int adminn = int.Parse(fields[1]);
-                    int coins = int.Parse(fields[2]); // Parse coins
-                    if (username.ToLower() != "admin") // Exclude "admin" user
+                    int coins = int.Parse(fields[2]);
+                    if (username.ToLower() != "admin")
                     {
-                        users.Add(new User(username, adminn, coins));
+                        users.Add(new User(username, adminn, coins)); // Add user to list
                     }
                 }
             }
 
-            // Populate dropdowns
             List<string> usernames = new List<string>();
             foreach (var user in users)
             {
@@ -74,21 +70,14 @@ public class Admin : MonoBehaviour
             }
 
             usernameDropdown.ClearOptions();
-            usernameDropdown.AddOptions(usernames);
-            deleteDropdown.ClearOptions(); // Clear options for delete dropdown
-            deleteDropdown.AddOptions(new List<string> { "Keep account", "Delete account" }); // Add options to delete dropdown
+            usernameDropdown.AddOptions(usernames); // Populate username dropdown
+            deleteDropdown.ClearOptions();
+            deleteDropdown.AddOptions(new List<string> { "Keep account", "Delete account" }); // Options for delete dropdown
 
-            // Add listeners for dropdown value changes
-            usernameDropdown.onValueChanged.AddListener(delegate {
-                DropdownValueChanged(usernameDropdown);
-            });
+            usernameDropdown.onValueChanged.AddListener(delegate { DropdownValueChanged(usernameDropdown); });
+            deleteDropdown.onValueChanged.AddListener(delegate { HandleDeleteDropdownChange(); });
 
-            deleteDropdown.onValueChanged.AddListener(delegate {
-                HandleDeleteDropdownChange();
-            });
-
-            // Set initial state for admin toggle and coins input field
-            DropdownValueChanged(usernameDropdown);
+            DropdownValueChanged(usernameDropdown); // Set initial values
         }
     }
 
@@ -96,54 +85,49 @@ public class Admin : MonoBehaviour
     {
         int selectedIndex = change.value;
         User selectedUser = users[selectedIndex];
-        adminToggle.isOn = selectedUser.adminn == 1;
-        coinsInputField.text = selectedUser.coins.ToString();
+        adminToggle.isOn = selectedUser.adminn == 1; // Set admin toggle
+        coinsInputField.text = selectedUser.coins.ToString(); // Set coins input
     }
 
-    // Method to handle delete dropdown value change
     void HandleDeleteDropdownChange()
     {
-        if (deleteDropdown.value == 1) // If "Delete account" option is selected
+        if (deleteDropdown.value == 1) // If "Delete account" selected
         {
             string selectedUsername = usernameDropdown.options[usernameDropdown.value].text;
-            StartCoroutine(UpdateUsers(selectedUsername, "Delete account"));
+            StartCoroutine(UpdateUsers(selectedUsername, "Delete account")); // Start delete user process
         }
     }
 
-    // Method to handle button click event
     public void HandleButtonClick()
-    {   
-        if (newPasswordInputField.text == confirmPasswordInputField.text)
+    {
+        if (newPasswordInputField.text == confirmPasswordInputField.text) // Check password match
         {
             string selectedOption = deleteDropdown.options[deleteDropdown.value].text;
             if (selectedOption == "Delete account")
             {
                 string selectedUsername = usernameDropdown.options[usernameDropdown.value].text;
-                StartCoroutine(UpdateUsers(selectedUsername, "Delete account"));
+                StartCoroutine(UpdateUsers(selectedUsername, "Delete account")); // Delete user
             }
             else if (selectedOption == "Keep account")
             {
                 string selectedUsername = usernameDropdown.options[usernameDropdown.value].text;
                 int newAdminStatus = adminToggle.isOn ? 1 : 0;
                 int newCoins = int.Parse(coinsInputField.text);
-                string newPassword = newPasswordInputField.text; // Get new password from input field
+                string newPassword = newPasswordInputField.text;
 
-                // Validate the new password if it is provided
-                if (!string.IsNullOrEmpty(newPassword) && newPassword.Length < 5)
+                if (!string.IsNullOrEmpty(newPassword) && newPassword.Length < 5) // Validate new password
                 {
                     feedbackText.text = "New password must be at least 5 characters long.";
                     return;
                 }
 
-                StartCoroutine(UpdateUsers(selectedUsername, "Keep account", newPassword, newAdminStatus, newCoins));
+                StartCoroutine(UpdateUsers(selectedUsername, "Keep account", newPassword, newAdminStatus, newCoins)); // Update user
             }
         }
         else
         {
-            feedbackText.text = "Passwords are not the same";
+            feedbackText.text = "Passwords are not the same"; // Password mismatch feedback
         }
-
-        
     }
 
     IEnumerator UpdateUsers(string username, string selectedOption, string newPassword = "", int newAdminStatus = -1, int newCoins = -1)
@@ -152,19 +136,18 @@ public class Admin : MonoBehaviour
         form.AddField("username", username);
         form.AddField("selectedOption", selectedOption);
 
-        // Add the new password field only if it's provided and valid
         if (!string.IsNullOrEmpty(newPassword) && newPassword.Length >= 5)
         {
-            form.AddField("newPassword", newPassword);
+            form.AddField("newPassword", newPassword); // Add new password
         }
 
         if (newAdminStatus != -1)
         {
-            form.AddField("adminStatus", newAdminStatus);
+            form.AddField("adminStatus", newAdminStatus); // Add new admin status
         }
         if (newCoins != -1)
         {
-            form.AddField("coins", newCoins);
+            form.AddField("coins", newCoins); // Add new coins value
         }
 
         using (UnityWebRequest www = UnityWebRequest.Post(url2, form))
@@ -187,8 +170,12 @@ public class Admin : MonoBehaviour
     void ValidateInput()
     {
         string text = coinsInputField.text;
-        // Remove any non-digit characters from the input
-        text = Regex.Replace(text, "[^0-9]", "");
+        text = Regex.Replace(text, "[^0-9]", ""); // Remove non-digits
+
+        if (text.Length > 6) // Limit to 6 characters
+        {
+            text = text.Substring(0, 6);
+        }
         coinsInputField.text = text;
     }
 
@@ -207,8 +194,7 @@ public class Admin : MonoBehaviour
     }
 
     public void GotoMain()
-    {   
-        //admin until you log out (everyone but admin account)
-        SceneManager.LoadScene(2); // Go to main menu scene (2) (build settings in Unity) File -> Build Settings)
+    {
+        SceneManager.LoadScene(2); // Go to main menu
     }
 }

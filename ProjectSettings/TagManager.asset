@@ -17,10 +17,10 @@ TagManager:
   - Enemy
   - Player
   - Background
-  - 
-  - 
-  - 
-  - 
+  - background2
+  - background3
+  - background4
+  - background5
   - 
   - 
   - 
@@ -42,6 +42,18 @@ TagManager:
   m_SortingLayers:
   - name: sky
     uniqueID: 3440571055
+    locked: 0
+  - name: last
+    uniqueID: 1379585993
+    locked: 0
+  - name: beforelast
+    uniqueID: 2271686715
+    locked: 0
+  - name: midground2
+    uniqueID: 1276406453
+    locked: 0
+  - name: midground
+    uniqueID: 1821127099
     locked: 0
   - name: background
     uniqueID: 335484677
