@@ -22,8 +22,17 @@ public class Admin : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(GetUsers());
-        coinsInputField.onValueChanged.AddListener(delegate { ValidateInput(); });
+        if (DBmanager.username == null)
+        {
+            SceneManager.LoadScene(0);
+
+        }
+        else
+        {
+            StartCoroutine(GetUsers());
+            coinsInputField.onValueChanged.AddListener(delegate { ValidateInput(); });
+        }
+        
     }
 
     IEnumerator GetUsers()
