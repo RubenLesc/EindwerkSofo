@@ -11,7 +11,8 @@ public class Healthbar : MonoBehaviour
     [SerializeField] private Image currenthealth;
 
     void Start()
-    {
+    {   
+        //hartjes bij level vullen naar mate je health hebt
         totalHealth.fillAmount = playerhealth.CurrentHealth / 10f;
         Debug.Log("StartTotal" + totalHealth.fillAmount.ToString());
         Debug.Log("StartCurrent" + currenthealth.fillAmount.ToString());
@@ -21,7 +22,5 @@ public class Healthbar : MonoBehaviour
     void Update()
     {
         currenthealth.fillAmount = playerhealth.CurrentHealth / 10f;
-
-
     }
 }

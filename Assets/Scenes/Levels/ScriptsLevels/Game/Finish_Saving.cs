@@ -5,14 +5,14 @@ using UnityEngine.Networking;
 
 public class Finish_Saving : MonoBehaviour
 {
-    // Reference to the GameManager
+    // Reference objecten
     public GameManager gameManager;
     private Animator playerAnimator;
     private player_Movement playerMovement;
 
     private void Start()
     {
-        // Get the Animator component from the player character
+        // krijg componenten
         GameObject player = GameObject.Find("Player");
         playerAnimator = player.GetComponent<Animator>();
         playerMovement = player.GetComponent<player_Movement>(); // Get the player_Movement component
@@ -24,22 +24,33 @@ public class Finish_Saving : MonoBehaviour
         {
             Debug.Log("Finished");
 
-            // Get the collected coins and elapsed time from the GameManager
+            //krijg tijd en coins voor completion van gamemanager
             int collectedCoins = gameManager.CoinsCollected;
-            //See how long you took for completing the level
             float elapsedTime = gameManager.GetElapsedTime();
 
-            // Save the collected coins and elapsed time in the DBmanager
+            //save de coins en tijd in de local database
             DBmanager.coins = collectedCoins;
-            DBmanager.elapsedTime = elapsedTime; // Send the elapsed time to the database
+            DBmanager.elapsedTime = elapsedTime;
 
-            //Go to winanimation to start playing the animation
             Winanimation();
 
-            // Send collected coins and elapsed time to the database
+            //zet de tijd in de juiste tijd voor level in local
+            switch (DBmanager.level)
+            {
+                case 1:
+                    DBmanager.levelTime1 = elapsedTime.ToString();
+                    break;
+                case 2:
+                    DBmanager.levelTime2 = elapsedTime.ToString();
+                    break;
+                case 3:
+                    DBmanager.levelTime3 = elapsedTime.ToString();
+                    break;
+                case 4:
+                    DBmanager.levelTime4 = elapsedTime.ToString();
+                    break;
+            }
             StartCoroutine(SendDataToDB(collectedCoins, elapsedTime));
-
-            //wait 2seconds before switching scene so you see the winning animation
             Invoke("GoToMain", 2f);
         }
     }
@@ -49,18 +60,17 @@ public class Finish_Saving : MonoBehaviour
         {
             playerMovement.StopMovement();
         }
-        //Play win animation
         playerAnimator.SetTrigger("Win");
     }
 
     void GoToMain()
     {
-        // Load the next scene
+        // Load lain menu
         SceneManager.LoadScene(2);
     }
     IEnumerator SendDataToDB(int collectedCoins, float elapsedTime)
     {
-        // Create a form object for sending data to the PHP script
+        //formobject voor php script
         WWWForm form = new WWWForm();
         form.AddField("coins", collectedCoins);
         form.AddField("username", DBmanager.username);
@@ -68,7 +78,7 @@ public class Finish_Saving : MonoBehaviour
         form.AddField("id", DBmanager.playerId);
         form.AddField("level", DBmanager.level);
 
-        // Send the request to the PHP script
+        // zend request naar php script
         using (UnityWebRequest www = UnityWebRequest.Post("http://localhost/sqlconnect/finish.php", form))
         {
             yield return www.SendWebRequest();

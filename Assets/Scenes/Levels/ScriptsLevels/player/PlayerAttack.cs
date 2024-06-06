@@ -14,19 +14,16 @@ public class PlayerAttack : MonoBehaviour
 
     void Update()
     {
-        // Update cooldown timer
+        //cooldownn
         cooldownTimer += Time.deltaTime;
 
         // Check if the cooldown time has passed
         if (cooldownTimer >= attackCooldown)
         {
-            // Check if the player has pressed the attack button
+            // Check if the player pressed spacee
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                // Reset cooldown timer
                 cooldownTimer = 0f;
-
-                // Call the Attack method
                 Attack();
             }
         }
@@ -64,7 +61,7 @@ public class PlayerAttack : MonoBehaviour
         Gizmos.DrawWireSphere(Attackpoint.position, AttackRange);
     }
 
-    // Method to update the attack point's position when the player flips
+    
     public void Flip()
     {
         // Flip the attack point's position

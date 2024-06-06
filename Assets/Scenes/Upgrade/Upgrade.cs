@@ -127,10 +127,10 @@ public class Upgrade : MonoBehaviour
             int newDamage = DBmanager.damage + 1;
             int newCoins = DBmanager.coins - Damagecost;
 
-            // Update UI immediately
+            // Update UI 
             UpdateCoinsLabel(newCoins);
 
-            // Start server update coroutine
+            
             StartCoroutine(SaveCurrentcoins(newCoins, newDamage, DBmanager.health, DBmanager.speed));
         }
         else

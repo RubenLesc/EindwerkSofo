@@ -7,7 +7,7 @@ using UnityEngine;
 public class EnemyPatrol : MonoBehaviour
 {   
 
-    //gameobjects to see where the enemy switches direction (patrol points)
+    //boundries van de movement patroll
     [SerializeField] private Transform LeftEdge;
     [SerializeField] private Transform RightEdge;
     //enemy
@@ -42,7 +42,7 @@ public class EnemyPatrol : MonoBehaviour
     private void Update()
     {
         if (movingLeft)
-        {   //checks if enemy passes the leftedge gameobject to see when it has to switch direction
+        {   //kijkt of de speler naar links kijkr
             if (Enemy.position.x >= LeftEdge.position.x)
             {
                 Movedirection(-1);
@@ -55,7 +55,7 @@ public class EnemyPatrol : MonoBehaviour
             }
         }
         else
-        {   //checks if enemy passes the rightedge gameobject to see when it has to switch direction
+        {   //checkt als je voorbij rechter transform object verplaatst
             if (Enemy.position.x <= RightEdge.position.x)
             {
                 Movedirection(1);

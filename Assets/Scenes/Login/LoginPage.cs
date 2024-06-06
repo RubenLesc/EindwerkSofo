@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class LoginPage : MonoBehaviour
 {
-    
+    //knoppen
     public void GotoRegister()
     {
         SceneManager.LoadScene(1); // naar register pagina gaan

@@ -1522,8 +1522,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -103.6, y: 0}
-  m_SizeDelta: {x: 1.9496, y: -78.0676}
+  m_AnchoredPosition: {x: -105.3, y: 0.000011444092}
+  m_SizeDelta: {x: 8.1383, y: -68.5467}
   m_Pivot: {x: 0.50000024, y: 0.5}
 --- !u!114 &1414602357
 MonoBehaviour:
@@ -1552,7 +1552,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 0
     m_MaxSize: 40
-    m_Alignment: 3
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -2491,7 +2491,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ea1e0b48aa13f4288678d431c63e30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CostPerUpgrade: 20
   btnUpgradeDamage: {fileID: 1277266088}
   btnUpgradeHealth: {fileID: 849608918}
   btnUpgradeSpeed: {fileID: 217846824}

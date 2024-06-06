@@ -8,7 +8,8 @@ public class Spikebehavior : MonoBehaviour
     public player_Movement playerMovement;
 
     private void OnTriggerEnter2D(Collider2D collision)
-    {
+    {   
+        //als speler de spikes aan raakt
         if (collision.name == "Player")
         {
             Debug.Log("Player died from spike");
@@ -17,7 +18,8 @@ public class Spikebehavior : MonoBehaviour
     }
 
     public void Die()
-    {
+    {   
+        //speler sterft
         Debug.Log("Die");
         if (playerAnimator != null)
         {
@@ -35,7 +37,6 @@ public class Spikebehavior : MonoBehaviour
 
     IEnumerator WaitForSeconds(float seconds)
     {
-        //wait for 0.7 seconds for the animation to end
         yield return new WaitForSeconds(seconds);
         //restart the current scene so the time restarts
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

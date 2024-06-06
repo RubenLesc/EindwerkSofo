@@ -4,31 +4,33 @@ using UnityEngine.SceneManagement;
 
 public class MeleeEnemy : MonoBehaviour
 {
-    [Header("Attack Parameters")]
+    // Attack Parameters
     [SerializeField] private float attackCooldown;
-    [SerializeField] private float range;
+    [SerializeField] private float range; 
 
-    [Header("Collider Parameters")]
-    [SerializeField] private float colliderDistance;
+    // Collider Parameters
+    [SerializeField] private float colliderDistance; 
     [SerializeField] private BoxCollider2D boxCollider;
 
     [SerializeField] private int damage;
 
+    // Timer for attack cooldown
     private float cooldownTimer = Mathf.Infinity;
+
     [SerializeField] private Animator anim;
-    private Collider2D playerCollider;
+    private Collider2D playerCollider; 
     private EnemyHealth enemyHealth;
-    
+
+    // ´kan aanvallen
     private bool canattack = true;
-    
 
     private void Awake()
     {
-        enemyHealth = GetComponent<EnemyHealth>();  
+        enemyHealth = GetComponent<EnemyHealth>();
     }
 
     private void Start()
-    {
+    {   //vind object
         player_Movement playerMovement = FindObjectOfType<player_Movement>();
 
         if (playerMovement != null)
@@ -45,59 +47,64 @@ public class MeleeEnemy : MonoBehaviour
         }
     }
 
+
     private void Update()
     {
-        {
-            // Increment the cooldown timer by the time elapsed since the last frame
-            cooldownTimer += Time.deltaTime;
 
-            // Check if the player is in sight
-            if (PlayerInSight())
+        cooldownTimer += Time.deltaTime;
+
+        // kijkt of de speler in de visionbox is
+        if (PlayerInSight())
+        {
+            // collider mag niet NULL zijn
+            if (playerCollider != null)
             {
-                // Check if the player collider is not null
-                if (playerCollider != null)
+                if (canattack == true)
                 {
-                    if (canattack == true)
+                    //kijkt of cooldown is actief
+                    if (cooldownTimer >= attackCooldown)
                     {
-                        // Check if the cooldown timer has reached or exceeded the attack cooldown
-                        if (cooldownTimer >= attackCooldown)
-                        {
-                            Debug.Log("Attack player");
-                            anim.SetTrigger("Attack");
-                            // Reset the cooldown timer for the next cooldown cycle
-                            cooldownTimer = 0f;
-                        }
-                        else
-                        {
-                            Debug.Log("Timer is still waiting");
-                        }
+                        Debug.Log("Attack player");
+                        anim.SetTrigger("Attack");
+                        // Reset cooldown timer
+                        cooldownTimer = 0f;
                     }
-                    Debug.Log("Attack is not finished");
-                    
+                    else
+                    {
+                        Debug.Log("Timer is still waiting");
+                    }
                 }
-                else
-                {
-                    Debug.Log("Enemy can't see you");
-                }
+                Debug.Log("Attack is not finished");
+            }
+            else
+            {
+                Debug.Log("Enemy can't see you");
             }
         }
     }
+
+    //animation bij einde 
     void AttackEnd()
-    {   
+    {
         canattack = false;
         StartCoroutine(WaitForSeconds(2f));
         canattack = true;
     }
+
+    //wacht voor seconden
     private IEnumerator WaitForSeconds(float seconds)
     {
         yield return new WaitForSeconds(seconds);
     }
 
+    // checkt of speler in de visionbox zit van de enemy
     private bool PlayerInSight()
     {
+        // Calculate offset based on range and collider distance
         Vector2 offset = transform.right * range * colliderDistance;
         Vector2 startPosition = (Vector2)transform.position + offset - Vector2.up;
 
+        // Cast a box in the direction of the player
         RaycastHit2D hit = Physics2D.BoxCast(
             startPosition,
             new Vector2(boxCollider.bounds.size.x * range, boxCollider.bounds.size.y),
@@ -109,11 +116,12 @@ public class MeleeEnemy : MonoBehaviour
         return hit.collider != null && hit.collider == playerCollider;
     }
 
+    // damage speler
     private void DamagePlayer()
     {
         if (playerCollider != null && PlayerInSight())
         {
-            // Deal damage to player
+            // damage speler
             Healthclass playerHealth = playerCollider.GetComponent<Healthclass>();
             if (playerHealth != null)
             {
@@ -127,18 +135,20 @@ public class MeleeEnemy : MonoBehaviour
         }
     }
 
-
+    // Visualize attack range in scene view
     private void OnDrawGizmos()
-    {   //visuals for debugging
+    {
+        // Calculate Gizmos parameters
         float flippedMultiplier = Mathf.Sign(transform.localScale.x);
         Vector2 offset = transform.right * range * colliderDistance * flippedMultiplier;
         Vector2 startPosition = (Vector2)transform.position + offset;
         Vector2 redCubeCenter = startPosition - Vector2.up * 1f;
 
+        // Draw wire cube to represent attack range
         Gizmos.color = Color.red;
         Vector3 playerScale = transform.localScale;
         Vector2 adjustedPosition = startPosition + new Vector2(range * transform.right.x * playerScale.x, 0f);
-        Vector3 adjustedSize = new Vector3(range * boxCollider.bounds.size.x * Mathf.Abs(playerScale.x),boxCollider.bounds.size.y,0f);
+        Vector3 adjustedSize = new Vector3(range * boxCollider.bounds.size.x * Mathf.Abs(playerScale.x), boxCollider.bounds.size.y, 0f);
         Gizmos.DrawWireCube(adjustedPosition, adjustedSize);
     }
 }

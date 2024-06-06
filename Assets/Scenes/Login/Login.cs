@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
@@ -7,7 +6,8 @@ using UnityEngine.UI;
 using System;
 
 public class Login : MonoBehaviour
-{
+{   
+    //references naar de objecten in unity
     public InputField Usernamefield;
     public InputField Passwordfield;
     public Button txtRegister;
@@ -15,21 +15,23 @@ public class Login : MonoBehaviour
 
     public void CallLogin()
     {
+        //wordt opgroepen als je op de login knop drukt
         StartCoroutine(LoginUser());
     }
 
     IEnumerator LoginUser()
-    {
+    {   
+        
         string username = Usernamefield.text.Trim();
         string password = Passwordfield.text.Trim();
 
-        // Check if fields are empty before sending the request
+        //checkt als de velden leeg zijn
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
         {
             error.text = "The fields cannot be empty";
             yield break;
         }
-
+        //form voor post
         WWWForm form = new WWWForm();
         form.AddField("name", username);
         form.AddField("password", password);
@@ -44,13 +46,13 @@ public class Login : MonoBehaviour
 
                 try
                 {
-                    // Check if the response starts with an error code
+                    //check als antwoord een error aangeeft
                     if (responseText.StartsWith("0\t"))
                     {
-                        // Split the response text by tab character
+                        //splits antwoord
                         string[] php = responseText.Split('\t');
 
-                        if (php.Length == 7)
+                        if (php.Length == 11)
                         {
                             DBmanager.username = username;
                             DBmanager.admin = int.Parse(php[1]);
@@ -59,6 +61,10 @@ public class Login : MonoBehaviour
                             DBmanager.speed = int.Parse(php[4]);
                             DBmanager.health = int.Parse(php[5]);
                             DBmanager.playerId = int.Parse(php[6]);
+                            DBmanager.levelTime1 = php[7] != "null" ? php[7] : null;
+                            DBmanager.levelTime2 = php[8] != "null" ? php[8] : null;
+                            DBmanager.levelTime3 = php[9] != "null" ? php[9] : null;
+                            DBmanager.levelTime4 = php[10] != "null" ? php[10] : null;
                             SceneManager.LoadScene(2); // Go to the main menu scene
                         }
                         else
@@ -108,7 +114,7 @@ public class Login : MonoBehaviour
             }
         }
     }
-
+    //verify input
     public void Verifyinput()
     {
         txtRegister.interactable = (Usernamefield.text.Length >= 3 && Passwordfield.text.Length >= 5);

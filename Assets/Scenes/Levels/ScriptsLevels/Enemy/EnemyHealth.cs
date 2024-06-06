@@ -1,19 +1,20 @@
 using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
-{
+{   //declarern
     [SerializeField] public float StartingHealth;
     public Animator enemyAnimator;
     public float CurrentHealth { get; private set; }
 
     private void Awake()
-    {
+    {   //set health
         CurrentHealth = StartingHealth;
-        
     }
 
     public void TakeDamage(float damage)
-    {
+    {   
+        //enemy neemt damage
+
         CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0, StartingHealth);
 
         if (CurrentHealth <= 0)
@@ -39,7 +40,8 @@ public class EnemyHealth : MonoBehaviour
     }
 
     private void Die()
-    {
+    {   
+        //enemy sterft
         enemyAnimator.SetTrigger("death");
         
     }

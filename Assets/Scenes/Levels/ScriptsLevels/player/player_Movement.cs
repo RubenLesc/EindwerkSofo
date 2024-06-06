@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class player_Movement : MonoBehaviour
-{
+{   
     private Rigidbody2D Player;
     private BoxCollider2D BoxCollider;
     [SerializeField] private LayerMask jumpableground;
@@ -18,19 +18,20 @@ public class player_Movement : MonoBehaviour
     private MovementState state;
 
     private bool canMove = true;
-    private bool facingRight = true; // Track the player's facing direction
+    private bool facingRight = true;
 
     public BoxCollider2D PlayerCollider { get; private set; }
 
-    private PlayerAttack playerAttack; // Reference to PlayerAttack component
+    private PlayerAttack playerAttack;
 
     private void Start()
-    {
+    {   
+        //references
         PlayerCollider = GetComponent<BoxCollider2D>();
         Player = GetComponent<Rigidbody2D>();
         BoxCollider = GetComponent<BoxCollider2D>();
         sprite = GetComponent<SpriteRenderer>();
-        playerAttack = GetComponent<PlayerAttack>(); // Get the PlayerAttack component
+        playerAttack = GetComponent<PlayerAttack>();
     }
 
     private void Update()
@@ -38,6 +39,7 @@ public class player_Movement : MonoBehaviour
         if (!canMove)
             return;
 
+        //kijkt welke toets je hebt ingedrukt
         directionX = Input.GetAxis("Horizontal");
         Player.velocity = new Vector2(MovementSpeed * directionX, Player.velocity.y);
 
@@ -53,12 +55,14 @@ public class player_Movement : MonoBehaviour
     }
 
     private bool IsGrounded()
-    {
+    {   
+        //ben je op de grond
         return Physics2D.BoxCast(BoxCollider.bounds.center, BoxCollider.bounds.size, 0f, Vector2.down, .1f, jumpableground);
     }
 
     private void UpdateAnimation()
-    {
+    {   
+        //animation
         MovementState state;
         if (directionX > 0f)
         {
@@ -92,20 +96,18 @@ public class player_Movement : MonoBehaviour
     }
 
     private void Flip()
-    {
+    {   
+        //verander de richting naar waar de speler kijkt
         facingRight = !facingRight;
-
-        // Call the Flip() method of the PlayerAttack component
         playerAttack.Flip();
-
-        // Flip the sprite horizontally
         sprite.flipX = !sprite.flipX;
     }
 
     public void StopMovement()
-    {
+    {   
+        //steft --> velocity 0
         canMove = false;
-        Player.velocity = Vector2.zero; // Set the velocity to zero
+        Player.velocity = Vector2.zero;
     }
 
     public void ResumeMovement()

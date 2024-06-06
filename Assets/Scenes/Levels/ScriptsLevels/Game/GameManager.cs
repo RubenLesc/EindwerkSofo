@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         // Update the score display
         Score.text = CoinsCollected.ToString();
 
-        // Update the timer if it is running
+        // Update the timer if running
         if (isTiming)
         {
             elapsedTime += Time.deltaTime;
@@ -48,11 +48,11 @@ public class GameManager : MonoBehaviour
 
     void UpdateTimerDisplay()
     {
-        // Convert elapsed time to minutes and seconds
+        // convert time
         int minutes = Mathf.FloorToInt(elapsedTime / 60f);
         int seconds = Mathf.FloorToInt(elapsedTime % 60f);
 
-        // Update the UI Text component
+        // text ui verversen
         timer.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
@@ -70,7 +70,6 @@ public class GameManager : MonoBehaviour
     public void CompleteLevel()
     {
         StopTimer();
-        // Additional code for completing the level
     }
 
     public float GetElapsedTime()

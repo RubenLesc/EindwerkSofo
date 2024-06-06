@@ -15,7 +15,7 @@ public class Leaderboard : MonoBehaviour
 
     void Awake()
     {
-        if (DBmanager.username == null)
+        if (DBmanager.username == null)// ga naar login als niet ingelogd
         {
             SceneManager.LoadScene(0);
         }
@@ -37,28 +37,25 @@ public class Leaderboard : MonoBehaviour
             }
             else
             {
-                // Process the response
+                
                 string response = www.downloadHandler.text.Trim();
                 Debug.Log("Response: " + response);
 
-                // Split the response into sections
+                // Splits de response in delen
                 string[] sections = response.Split(new string[] { "Time Level 1", "Time Level 2", "Time Level 3", "Time Level 4" }, StringSplitOptions.None);
 
                 if (sections.Length >= 5)
                 {
-                    // Coins section
+                    
                     leaderboardcoins.text = sections[0].Trim();
 
-                    // Time level 1 section
+                    
                     leaderboardTimeLevel1.text = "" + sections[1].Trim();
 
-                    // Time level 2 section
                     leaderboardTimeLevel2.text = "" + sections[2].Trim();
 
-                    // Time level 3 section
                     leaderboardTimeLevel3.text = "" + sections[3].Trim();
 
-                    // Time level 4 section
                     leaderboardTimeLevel4.text = "" + sections[4].Trim();
                 }
                 else
