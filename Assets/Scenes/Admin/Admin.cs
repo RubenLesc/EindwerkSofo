@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
@@ -40,7 +39,6 @@ public class Admin : MonoBehaviour
         }
     }
 
-    
     IEnumerator GetUsers()
     {
         // krijg gebruikers
@@ -56,41 +54,55 @@ public class Admin : MonoBehaviour
         {
             // vull de dropdown menus in
             string data = www.downloadHandler.text;
-            string[] entries = data.Split(';');
-
-            users.Clear();
-            foreach (string entry in entries)
+            if (data == "No players available")
             {
-                string[] fields = entry.Split(',');
-                if (fields.Length == 3)
+                // Geen spelers beschikbaar, voeg een melding toe aan de dropdown
+                usernameDropdown.ClearOptions();
+                usernameDropdown.AddOptions(new List<string> { "No players available" });
+                deleteDropdown.ClearOptions();
+                deleteDropdown.AddOptions(new List<string> { "No action available" });
+
+                // Disable the rest of the UI elements
+                adminToggle.interactable = false;
+                coinsInputField.interactable = false;
+                newPasswordInputField.interactable = false;
+                confirmPasswordInputField.interactable = false;
+            }
+            else
+            {
+                string[] entries = data.Split(';');
+
+                users.Clear();
+                foreach (string entry in entries)
                 {
-                    string username = fields[0];
-                    int adminn = int.Parse(fields[1]);
-                    int coins = int.Parse(fields[2]);
-                    if (username.ToLower() != "admin")
+                    string[] fields = entry.Split(',');
+                    if (fields.Length == 3)
                     {
+                        string username = fields[0];
+                        int adminn = int.Parse(fields[1]);
+                        int coins = int.Parse(fields[2]);
                         users.Add(new User(username, adminn, coins));
                     }
                 }
+
+                // vull dropdown in met gegevens
+                List<string> usernames = new List<string>();
+                foreach (var user in users)
+                {
+                    usernames.Add(user.username);
+                }
+
+                usernameDropdown.ClearOptions();
+                usernameDropdown.AddOptions(usernames);
+                deleteDropdown.ClearOptions();
+                deleteDropdown.AddOptions(new List<string> { "Keep account", "Delete account" });
+
+                // Set initial dropdown values
+                usernameDropdown.onValueChanged.AddListener(delegate { DropdownValueChanged(usernameDropdown); });
+                deleteDropdown.onValueChanged.AddListener(delegate { HandleDeleteDropdownChange(); });
+
+                DropdownValueChanged(usernameDropdown);
             }
-
-            // vull dropdown in met gegevens
-            List<string> usernames = new List<string>();
-            foreach (var user in users)
-            {
-                usernames.Add(user.username);
-            }
-
-            usernameDropdown.ClearOptions();
-            usernameDropdown.AddOptions(usernames);
-            deleteDropdown.ClearOptions();
-            deleteDropdown.AddOptions(new List<string> { "Keep account", "Delete account" });
-
-            // Set initial dropdown values
-            usernameDropdown.onValueChanged.AddListener(delegate { DropdownValueChanged(usernameDropdown); });
-            deleteDropdown.onValueChanged.AddListener(delegate { HandleDeleteDropdownChange(); });
-
-            DropdownValueChanged(usernameDropdown);
         }
     }
 
@@ -103,17 +115,15 @@ public class Admin : MonoBehaviour
         coinsInputField.text = selectedUser.coins.ToString(); //coins input
     }
 
-    // Methode voor delete dropdonw
+    // Methode voor delete dropdown
     void HandleDeleteDropdownChange()
     {
         if (deleteDropdown.value == 1)
         {
             string selectedUsername = usernameDropdown.options[usernameDropdown.value].text;
-            StartCoroutine(UpdateUsers(selectedUsername, "Delete account"));
         }
     }
 
-    
     public void HandleButtonClick()
     {
         if (newPasswordInputField.text == confirmPasswordInputField.text) // Check wachtwoord match
@@ -139,7 +149,6 @@ public class Admin : MonoBehaviour
                     return;
                 }
 
-                
                 StartCoroutine(UpdateUsers(selectedUsername, "Keep account", newPassword, newAdminStatus, newCoins));
             }
         }
@@ -148,7 +157,6 @@ public class Admin : MonoBehaviour
             feedbackText.text = "Passwords are not the same"; //is niet gelijk passwoord
         }
     }
-
 
     IEnumerator UpdateUsers(string username, string selectedOption, string newPassword = "", int newAdminStatus = -1, int newCoins = -1)
     {
@@ -193,7 +201,6 @@ public class Admin : MonoBehaviour
         }
     }
 
-
     void ValidateInput()
     {
         string text = coinsInputField.text;
@@ -212,7 +219,6 @@ public class Admin : MonoBehaviour
         public int adminn;
         public int coins;
 
-
         public User(string username, int adminn, int coins)
         {
             this.username = username;
@@ -220,7 +226,6 @@ public class Admin : MonoBehaviour
             this.coins = coins;
         }
     }
-
 
     public void GotoMain()
     {
